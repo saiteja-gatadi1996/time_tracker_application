@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Annual Time Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
     <style>
       * {
         margin: 0;
@@ -20,7 +21,6 @@
       }
 
       .container {
-        max-width: 1280px;
         margin: 0 auto;
         padding: 20px;
       }
@@ -89,6 +89,8 @@
       .card-title {
         font-size: 20px;
         font-weight: 600;
+        padding: 10px;
+        border-radius: 8px;
       }
 
       .calendar-grid {
@@ -202,11 +204,11 @@
       }
 
       .stat-card.blue {
-        background-color: #eff6ff;
+        background-color: #b8eab8;
       }
 
       .stat-card.purple {
-        background-color: #faf5ff;
+        background-color: #add8e6;
       }
 
       .stat-card.red {
@@ -326,8 +328,76 @@
       }
 
       .year-total {
-        background-color: #f9fafb;
+        background-color: #f7f70a;
         font-weight: 600;
+        font-size: 20px;
+      }
+
+      /* Hourly view */
+      .hourly-table thead th {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 1;
+      }
+
+      .activity-select {
+        width: 100%;
+        padding: 6px 8px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 13px;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 9999px;
+        font-size: 12px;
+      }
+
+      .pill.blue {
+        background: #eff6ff;
+        color: #000;
+        background-color: #b8eab8;
+        border: none;
+      }
+
+      .pill.purple {
+        background: #add8e6;
+        color: #000;
+      }
+
+      .pill.red {
+        background: #fef2f2;
+        color: #991b1b;
+      }
+
+      .pill.gray {
+        background: #f3f4f6;
+        color: #374151;
+      }
+      .activity-select {
+        background: transparent;
+        border: none;
+        font-size: 14px;
+        font-weight: 500;
+        width: 100%;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: none;
+        border: none !important;
+      }
+      .activity-select:focus {
+        outline: none;
+      }
+      #hourly-view h2,
+      #hourly-view th {
+        color: #000;
+        border: 1px solid darkgray;
+        background-color: #f7f70a;
       }
     </style>
   </head>
@@ -335,28 +405,144 @@
     <div class="container">
       <header class="header">
         <h1 class="title">Annual Time Tracker</h1>
-
-        <div class="button-group">
-          <button class="button active" onclick="setViewMode('input')">
+        <div class="button-group" id="nav-buttons">
+          <button class="button active" onclick="setViewMode('hourly', this)">
+            ⏱️ Hourly Tracker
+          </button>
+          <button class="button" onclick="setViewMode('input', this)">
             📅 Input Data
           </button>
-          <button class="button" onclick="setViewMode('daily')">
+          <button class="button" onclick="setViewMode('daily', this)">
             Daily Report
           </button>
-          <button class="button" onclick="setViewMode('weekly')">
+          <button class="button" onclick="setViewMode('weekly', this)">
             Weekly Report
           </button>
-          <button class="button" onclick="setViewMode('monthly')">
+          <button class="button" onclick="setViewMode('monthly', this)">
             Monthly Report
           </button>
-          <button class="button" onclick="setViewMode('yearly')">
+          <button class="button" onclick="setViewMode('yearly', this)">
             📊 Yearly Report
           </button>
         </div>
       </header>
 
-      <!-- Input View -->
-      <div id="input-view" class="view">
+      <!-- HOURLY TRACKER (New First Page) -->
+      <div id="hourly-view" class="view">
+        <div class="grid-container">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">
+                Hourly Tracker — <span id="hourly-date"></span>
+              </h2>
+              <div class="nav-buttons">
+                <button class="icon-button" onclick="shiftSelectedDate(-1)">
+                  ‹
+                </button>
+                <button class="icon-button" onclick="shiftSelectedDate(1)">
+                  ›
+                </button>
+              </div>
+            </div>
+            <div class="total-info" style="margin-bottom: 12px">
+              <span class="pill blue"
+                >Studied: <span id="hourly-study">0</span> hrs</span
+              >
+              <span class="pill purple" style="margin-left: 8px"
+                >Slept: <span id="hourly-sleep">0</span> hrs</span
+              >
+              <span class="pill red" style="margin-left: 8px"
+                >Wasted: <span id="hourly-wasted">0</span> hrs</span
+              >
+              <span class="pill gray" style="margin-left: 8px"
+                >Accounted: <span id="hourly-accounted">0</span> / 24 hrs</span
+              >
+            </div>
+            <div
+              class="overflow-x-auto"
+              style="
+                max-height: 60vh;
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+              "
+            >
+              <table class="hourly-table" style="width: 100%">
+                <thead>
+                  <tr>
+                    <th class="text-center" style="font-size: 14px">Time</th>
+                    <th class="text-center" style="font-size: 14px">
+                      First Half
+                    </th>
+                    <th class="text-center" style="font-size: 14px">
+                      Second Half
+                    </th>
+                    <th style="font-size: 14px" class="text-center">
+                      Studied (hrs)
+                    </th>
+                    <th style="font-size: 14px" class="text-center">
+                      Slept (hrs)
+                    </th>
+                    <th style="font-size: 14px" class="text-center">
+                      Wasted (hrs)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="hourly-body"></tbody>
+              </table>
+            </div>
+            <p
+              class="warning-text hidden"
+              id="hourly-warning"
+              style="margin-top: 8px"
+            >
+              ⚠️ Accounted time exceeds 24 hours!
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="form-group" style="margin-top: 16px">
+              <label class="label"
+                >If there’s one thing you could change about your past, what
+                would it be?</label
+              >
+              <textarea
+                id="reflection-input"
+                class="input"
+                rows="6"
+                placeholder="Type your answer... (auto-saved)"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <button class="button" onclick="clearReflection()">
+                Clear Answer
+              </button>
+            </div>
+            <div class="total-info">
+              <p style="font-size: 13px">
+                Tip: Use Export/Import below to back up your data.
+              </p>
+              <div style="display: flex; gap: 8px; margin-top: 8px">
+                <button class="button" onclick="exportAllData()">
+                  Export Data
+                </button>
+                <label class="button" for="import-file" style="cursor: pointer"
+                  >Import Data</label
+                >
+                <input
+                  type="file"
+                  id="import-file"
+                  class="hidden"
+                  accept="application/json"
+                  onchange="importAllData(event)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input View (original) -->
+      <div id="input-view" class="view hidden">
         <div class="grid-container">
           <div class="card">
             <div class="card-header">
@@ -366,7 +552,6 @@
                 <button class="icon-button" onclick="changeMonth(1)">›</button>
               </div>
             </div>
-
             <div class="calendar-grid">
               <div class="day-header">Sun</div>
               <div class="day-header">Mon</div>
@@ -376,7 +561,6 @@
               <div class="day-header">Fri</div>
               <div class="day-header">Sat</div>
             </div>
-
             <div id="calendar-days" class="calendar-grid"></div>
           </div>
 
@@ -384,11 +568,24 @@
             <h2 class="card-title">
               Data Entry for <span id="selected-date"></span>
             </h2>
+            <p
+              style="
+                background: #f2f2f2;
+                padding: 10px;
+                border-radius: 6px;
+                margin: 0;
+                color: red;
+              "
+            >
+              Below data is automatically calculated from the Hourly Tracker. If
+              you missed updating it for any day, you can manually enter the
+              values here.
+            </p>
 
             <div style="margin-top: 24px">
               <div class="form-group">
-                <label class="label"> 🧠 Study Hours </label>
-                <input
+                <label class="label"> 🧠 Study Hours </label
+                ><input
                   type="number"
                   id="study-input"
                   class="input"
@@ -398,10 +595,9 @@
                   value="0"
                 />
               </div>
-
               <div class="form-group">
-                <label class="label"> 🌙 Sleep Hours </label>
-                <input
+                <label class="label"> 🌙 Sleep Hours </label
+                ><input
                   type="number"
                   id="sleep-input"
                   class="input"
@@ -411,10 +607,9 @@
                   value="0"
                 />
               </div>
-
               <div class="form-group">
-                <label class="label"> ⚠️ Wasted Hours </label>
-                <input
+                <label class="label"> ⚠️ Wasted Hours </label
+                ><input
                   type="number"
                   id="wasted-input"
                   class="input"
@@ -424,7 +619,6 @@
                   value="0"
                 />
               </div>
-
               <div class="form-group">
                 <label class="label"> Wasted Time Patterns </label>
                 <div class="input-group">
@@ -438,10 +632,8 @@
                     Add
                   </button>
                 </div>
-
                 <div id="patterns-list" style="margin-top: 12px"></div>
               </div>
-
               <div class="total-info">
                 <p id="total-hours">Total accounted: 0 / 24 hours</p>
                 <p id="warning-message" class="warning-text hidden">
@@ -459,33 +651,20 @@
           <h2 class="card-title">
             Daily Report - <span id="daily-date"></span>
           </h2>
-
           <div class="stats-grid">
             <div class="stat-card blue">
-              <div class="stat-header">
-                <span>Study</span>
-                <span>🧠</span>
-              </div>
+              <div class="stat-header"><span>Study</span><span>🧠</span></div>
               <div class="stat-value blue" id="daily-study">0 hrs</div>
             </div>
-
             <div class="stat-card purple">
-              <div class="stat-header">
-                <span>Sleep</span>
-                <span>🌙</span>
-              </div>
+              <div class="stat-header"><span>Sleep</span><span>🌙</span></div>
               <div class="stat-value purple" id="daily-sleep">0 hrs</div>
             </div>
-
             <div class="stat-card red">
-              <div class="stat-header">
-                <span>Wasted</span>
-                <span>⚠️</span>
-              </div>
+              <div class="stat-header"><span>Wasted</span><span>⚠️</span></div>
               <div class="stat-value red" id="daily-wasted">0 hrs</div>
             </div>
           </div>
-
           <div id="daily-patterns"></div>
         </div>
       </div>
@@ -499,14 +678,12 @@
             </h2>
             <div class="nav-buttons">
               <button class="icon-button" onclick="changeReportMonth(-1)">
-                ‹
-              </button>
-              <button class="icon-button" onclick="changeReportMonth(1)">
+                ‹</button
+              ><button class="icon-button" onclick="changeReportMonth(1)">
                 ›
               </button>
             </div>
           </div>
-
           <div id="weekly-content"></div>
         </div>
       </div>
@@ -520,14 +697,12 @@
             </h2>
             <div class="nav-buttons">
               <button class="icon-button" onclick="changeReportMonth(-1)">
-                ‹
-              </button>
-              <button class="icon-button" onclick="changeReportMonth(1)">
+                ‹</button
+              ><button class="icon-button" onclick="changeReportMonth(1)">
                 ›
               </button>
             </div>
           </div>
-
           <div id="monthly-content"></div>
         </div>
       </div>
@@ -541,14 +716,12 @@
             </h2>
             <div class="nav-buttons">
               <button class="icon-button" onclick="changeReportYear(-1)">
-                ‹
-              </button>
-              <button class="icon-button" onclick="changeReportYear(1)">
+                ‹</button
+              ><button class="icon-button" onclick="changeReportYear(1)">
                 ›
               </button>
             </div>
           </div>
-
           <div class="overflow-x-auto">
             <table>
               <thead>
@@ -564,91 +737,142 @@
               <tfoot id="yearly-table-footer"></tfoot>
             </table>
           </div>
-
           <div id="yearly-patterns" class="pattern-list"></div>
         </div>
       </div>
     </div>
 
     <script>
-      // State management
+      // ===== State management =====
       let selectedDate = new Date();
       let currentMonth = new Date();
       let reportRange = new Date();
-      let dailyData = {};
-      let wastedPatterns = {};
-      let viewMode = 'input';
+      let dailyData = {}; // { 'YYYY-MM-DD': { study, sleep, wasted } }
+      let hourlyData = {}; // { 'YYYY-MM-DD': [ {first:'Studying', second:'Sleeping'}, ...24 ] }
+      let wastedPatterns = {}; // { 'YYYY-MM-DD': [ 'post lunch', ... ] }
+      let reflections = {}; // { 'YYYY-MM-DD': 'reflection text' }
+      let viewMode = 'hourly';
 
-      // Initialize
-      window.addEventListener('DOMContentLoaded', function () {
-        loadData();
-        updateDisplay();
+      const ACTIVITIES = ['Studying', 'Sleeping', 'Wasted', 'MISC'];
 
-        // Add Enter key support for pattern input
-        document
-          .getElementById('pattern-input')
-          .addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-              addPattern();
-            }
-          });
+      // ===== Helpers =====
+      function pad(n) {
+        return String(n).padStart(2, '0');
+      }
+      function formatDate(d) {
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(
+          d.getDate()
+        )}`;
+      }
+      function getDateKey(d) {
+        return formatDate(d);
+      }
+      function hourLabel(h) {
+        const hour12 = ((h + 11) % 12) + 1;
+        const ampm = h < 12 ? 'AM' : 'PM';
+        return `${hour12} ${ampm}`;
+      }
+      function timeRange(h) {
+        const hh = pad(h);
+        return {
+          first: `${hh}:00–${hh}:30`,
+          second: `${hh}:30–${hh}:59`,
+        };
+      }
+      function isPast(dateKey) {
+        const todayKey = getDateKey(new Date());
+        return dateKey < todayKey;
+      }
+      function isFuture(dateKey) {
+        const todayKey = getDateKey(new Date());
+        return dateKey > todayKey;
+      }
+      function getColor(act) {
+        const colors = {
+          Studying: '#b8eab8;',
+          Sleeping: '#add8e6',
+          Wasted: '#ffcccb',
+          MISC: '#fff5c0',
+        };
+        return colors[act] || '';
+      }
 
-        // Add change listeners for inputs
-        ['study-input', 'sleep-input', 'wasted-input'].forEach((id) => {
-          document
-            .getElementById(id)
-            .addEventListener('input', handleInputChange);
-        });
-      });
-
+      // ===== Storage =====
       function loadData() {
         const savedData = localStorage.getItem('timeTrackerData');
         const savedPatterns = localStorage.getItem('wastedPatterns');
-
-        if (savedData) {
-          dailyData = JSON.parse(savedData);
-        }
-        if (savedPatterns) {
-          wastedPatterns = JSON.parse(savedPatterns);
-        }
+        const savedHourly = localStorage.getItem('hourlyData');
+        const savedReflections = localStorage.getItem('reflections');
+        if (savedData) dailyData = JSON.parse(savedData);
+        if (savedPatterns) wastedPatterns = JSON.parse(savedPatterns);
+        if (savedHourly) hourlyData = JSON.parse(savedHourly);
+        if (savedReflections) reflections = JSON.parse(savedReflections);
       }
-
       function saveData() {
         localStorage.setItem('timeTrackerData', JSON.stringify(dailyData));
         localStorage.setItem('wastedPatterns', JSON.stringify(wastedPatterns));
+        localStorage.setItem('hourlyData', JSON.stringify(hourlyData));
+        localStorage.setItem('reflections', JSON.stringify(reflections));
       }
 
-      function formatDate(date) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+      function exportAllData() {
+        const blob = new Blob(
+          [
+            JSON.stringify(
+              { dailyData, hourlyData, wastedPatterns, reflections },
+              null,
+              2
+            ),
+          ],
+          { type: 'application/json' }
+        );
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `time-tracker-backup-${Date.now()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+      function importAllData(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const obj = JSON.parse(reader.result);
+            dailyData = obj.dailyData || {};
+            hourlyData = obj.hourlyData || {};
+            wastedPatterns = obj.wastedPatterns || {};
+            reflections = obj.reflections || {};
+            saveData();
+            updateDisplay();
+            alert('Import successful.');
+          } catch (err) {
+            alert('Import failed: invalid JSON');
+          }
+        };
+        reader.readAsText(file);
       }
 
-      function getDateKey(date) {
-        return formatDate(date);
-      }
-
-      function setViewMode(mode) {
+      // ===== Navigation / View =====
+      function setViewMode(mode, btn) {
         viewMode = mode;
-
-        // Update button states
-        document.querySelectorAll('.button-group .button').forEach((btn) => {
-          btn.classList.remove('active');
-        });
-        event.target.classList.add('active');
-
-        // Hide all views
-        document.querySelectorAll('.view').forEach((view) => {
-          view.classList.add('hidden');
-        });
-
-        // Show selected view
+        document
+          .querySelectorAll('.view')
+          .forEach((v) => v.classList.add('hidden'));
         document.getElementById(`${mode}-view`).classList.remove('hidden');
-
+        document
+          .querySelectorAll('#nav-buttons .button')
+          .forEach((b) => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
         updateDisplay();
       }
-
+      function shiftSelectedDate(deltaDays) {
+        const d = new Date(selectedDate);
+        d.setDate(d.getDate() + deltaDays);
+        selectedDate = d;
+        updateDisplay();
+      }
       function changeMonth(direction) {
         currentMonth = new Date(
           currentMonth.getFullYear(),
@@ -657,7 +881,6 @@
         );
         updateDisplay();
       }
-
       function changeReportMonth(direction) {
         reportRange = new Date(
           reportRange.getFullYear(),
@@ -666,7 +889,6 @@
         );
         updateDisplay();
       }
-
       function changeReportYear(direction) {
         reportRange = new Date(
           reportRange.getFullYear() + direction,
@@ -675,12 +897,185 @@
         );
         updateDisplay();
       }
-
       function selectDate(date) {
         selectedDate = new Date(date);
         updateDisplay();
       }
 
+      // ===== Hourly view =====
+      function renderHourly() {
+        const dateKey = getDateKey(selectedDate);
+        const hasHourly = !!hourlyData[dateKey];
+        let rows = hasHourly
+          ? hourlyData[dateKey]
+          : Array(24).fill({ first: null, second: null });
+        const past = isPast(dateKey);
+        document.getElementById('hourly-date').textContent = new Date(
+          selectedDate
+        ).toDateString();
+        const tbody = document.getElementById('hourly-body');
+        tbody.innerHTML = rows
+          .map((row, h) => {
+            const ranges = timeRange(h);
+            const studied =
+              halfToHours(row.first, 'Studying') +
+              halfToHours(row.second, 'Studying');
+            const slept =
+              halfToHours(row.first, 'Sleeping') +
+              halfToHours(row.second, 'Sleeping');
+            const wasted =
+              halfToHours(row.first, 'Wasted') +
+              halfToHours(row.second, 'Wasted');
+            return `<tr>
+            <td class="text-center" style="white-space:nowrap; font-weight:500">${hourLabel(
+              h
+            )}</td>
+            <td class="text-center" style="background-color: ${getColor(
+              row.first
+            )};">
+              <select class="activity-select text-center" ${
+                past ? 'disabled' : ''
+              } onchange="setHalfActivity('${dateKey}', ${h}, 'first', this.value)">
+                ${
+                  !row.first
+                    ? '<option value="" selected disabled hidden>-- Select --</option>'
+                    : ''
+                }
+                ${ACTIVITIES.map(
+                  (a) =>
+                    `<option value="${a}" ${
+                      row.first === a ? 'selected' : ''
+                    }>${a}</option>`
+                ).join('')}
+              </select>
+              <div style="font-size:12px; color:#6b7280; margin-top:4px">${
+                ranges.first
+              }</div>
+            </td>
+            <td class="text-center" style="background-color: ${getColor(
+              row.second
+            )};">
+              <select class="activity-select text-center" ${
+                past ? 'disabled' : ''
+              } onchange="setHalfActivity('${dateKey}', ${h}, 'second', this.value)">
+                ${
+                  !row.second
+                    ? '<option value="" selected disabled hidden>-- Select --</option>'
+                    : ''
+                }
+                ${ACTIVITIES.map(
+                  (a) =>
+                    `<option value="${a}" ${
+                      row.second === a ? 'selected' : ''
+                    }>${a}</option>`
+                ).join('')}
+              </select>
+              <div style="font-size:12px; color:#6b7280; margin-top:4px">${
+                ranges.second
+              }</div>
+            </td>
+            <td class="text-center" style="${
+              studied > 0 ? 'background-color: #b8eab8;' : ''
+            }">${studied}</td>
+            <td class="text-center" style="${
+              slept > 0 ? 'background-color: #add8e6;' : ''
+            }">${slept}</td>
+            <td class="text-center" style="${
+              wasted > 0 ? 'background-color: #ffcccb;' : ''
+            }">${wasted}</td>
+          </tr>`;
+          })
+          .join('');
+        if (hasHourly) {
+          recalcFromHourly(dateKey);
+        } else {
+          const data = dailyData[dateKey] || { study: 0, sleep: 0, wasted: 0 };
+          document.getElementById('hourly-study').textContent = formatHours(
+            data.study
+          );
+          document.getElementById('hourly-sleep').textContent = formatHours(
+            data.sleep
+          );
+          document.getElementById('hourly-wasted').textContent = formatHours(
+            data.wasted
+          );
+          const accounted = data.study + data.sleep + data.wasted;
+          document.getElementById('hourly-accounted').textContent =
+            formatHours(accounted);
+          const warn = document.getElementById('hourly-warning');
+          if (accounted > 24) warn.classList.remove('hidden');
+          else warn.classList.add('hidden');
+        }
+      }
+      function formatHours(num) {
+        return Number.isInteger(num) ? num : num.toFixed(1);
+      }
+      function halfToHours(val, target) {
+        return val === target ? 0.5 : 0;
+      }
+      function setHalfActivity(dateKey, hour, half, value) {
+        if (!value) return;
+        const isPastDay = isPast(dateKey);
+        if (isPastDay) {
+          alert('Cannot edit past days.');
+          renderHourly();
+          return;
+        }
+        if (!hourlyData[dateKey]) {
+          hourlyData[dateKey] = Array.from({ length: 24 }, () => ({
+            first: null,
+            second: null,
+          }));
+        }
+        hourlyData[dateKey][hour][half] = value;
+        saveData();
+        recalcFromHourly(dateKey);
+        renderHourly();
+      }
+      function recalcFromHourly(dateKey) {
+        const rows = hourlyData[dateKey];
+        let study = 0,
+          sleep = 0,
+          wasted = 0;
+        rows.forEach((r) => {
+          study +=
+            halfToHours(r.first, 'Studying') +
+            halfToHours(r.second, 'Studying');
+          sleep +=
+            halfToHours(r.first, 'Sleeping') +
+            halfToHours(r.second, 'Sleeping');
+          wasted +=
+            halfToHours(r.first, 'Wasted') + halfToHours(r.second, 'Wasted');
+        });
+        // Update top chips
+        document.getElementById('hourly-study').innerHTML =
+          formatHours(study) + (study >= 15 ? ' 🗿' : '');
+        document.getElementById('hourly-sleep').innerHTML =
+          formatHours(sleep) + (sleep <= 5 ? ' 🗿' : '');
+        document.getElementById('hourly-wasted').innerHTML =
+          formatHours(wasted) + (wasted === 0 ? ' 🗿' : '');
+        const accounted = study + sleep + wasted + countMiscHours(rows);
+        document.getElementById('hourly-accounted').textContent =
+          formatHours(accounted);
+        const warn = document.getElementById('hourly-warning');
+        if (accounted > 24.001) warn.classList.remove('hidden');
+        else warn.classList.add('hidden');
+        // Sync into dailyData so all reports reflect hourly selections
+        dailyData[dateKey] = { study, sleep, wasted };
+        saveData();
+        // Also keep input view totals in sync if user switches back
+        updateTotalsDisplay();
+      }
+      function countMiscHours(rows) {
+        let misc = 0;
+        rows.forEach((r) => {
+          misc +=
+            (r.first === 'MISC' ? 0.5 : 0) + (r.second === 'MISC' ? 0.5 : 0);
+        });
+        return misc;
+      }
+
+      // ===== Input view (original) =====
       function handleInputChange() {
         const dateKey = getDateKey(selectedDate);
         const study =
@@ -689,108 +1084,406 @@
           parseFloat(document.getElementById('sleep-input').value) || 0;
         const wasted =
           parseFloat(document.getElementById('wasted-input').value) || 0;
-
         dailyData[dateKey] = { study, sleep, wasted };
         saveData();
-
-        // Update total
         const total = study + sleep + wasted;
         document.getElementById(
           'total-hours'
         ).textContent = `Total accounted: ${total.toFixed(1)} / 24 hours`;
-
         const warning = document.getElementById('warning-message');
-        if (total > 24) {
-          warning.classList.remove('hidden');
-        } else {
-          warning.classList.add('hidden');
-        }
-
+        if (total > 24) warning.classList.remove('hidden');
+        else warning.classList.add('hidden');
         updateCalendar();
       }
-
       function addPattern() {
         const input = document.getElementById('pattern-input');
         const pattern = input.value.trim();
-
         if (pattern) {
           const dateKey = getDateKey(selectedDate);
-          if (!wastedPatterns[dateKey]) {
-            wastedPatterns[dateKey] = [];
-          }
+          if (!wastedPatterns[dateKey]) wastedPatterns[dateKey] = [];
           wastedPatterns[dateKey].push(pattern);
           input.value = '';
           saveData();
           updatePatternsList();
         }
       }
-
       function removePattern(index) {
         const dateKey = getDateKey(selectedDate);
         wastedPatterns[dateKey].splice(index, 1);
         saveData();
         updatePatternsList();
       }
-
       function updatePatternsList() {
         const dateKey = getDateKey(selectedDate);
         const patterns = wastedPatterns[dateKey] || [];
         const container = document.getElementById('patterns-list');
-
         container.innerHTML = patterns
           .map(
-            (pattern, index) => `
-                <span class="pattern-chip">
-                    ${pattern}
-                    <button onclick="removePattern(${index})">×</button>
-                </span>
-            `
+            (pattern, index) =>
+              `<span class="pattern-chip">${pattern}<button onclick="removePattern(${index})">×</button></span>`
           )
           .join('');
       }
 
+      // ===== Calendar =====
       function updateCalendar() {
         const year = currentMonth.getFullYear();
         const month = currentMonth.getMonth();
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-
         const container = document.getElementById('calendar-days');
         let html = '';
-
-        // Empty cells
         for (let i = 0; i < firstDay; i++) {
           html += '<div></div>';
         }
-
-        // Days
         for (let day = 1; day <= daysInMonth; day++) {
           const date = new Date(year, month, day);
           const dateKey = getDateKey(date);
           const hasData = dailyData[dateKey];
           const isSelected = getDateKey(date) === getDateKey(selectedDate);
-          const isToday = getDateKey(date) === getDateKey(new Date());
-
+          const now = new Date();
+          const isToday = getDateKey(date) === getDateKey(now);
           let classes = 'day-cell';
           if (isSelected) classes += ' selected';
           else if (isToday) classes += ' today';
           else if (hasData) classes += ' has-data';
-
           html += `<div class="${classes}" onclick="selectDate(new Date(${year}, ${month}, ${day}))">
-                    <div style="font-weight: 500">${day}</div>
-                    ${
-                      hasData
-                        ? '<div style="font-size: 12px; color: #16a34a">✓</div>'
-                        : ''
-                    }
-                </div>`;
+            <div style="font-weight: 500">${day}</div>
+            ${
+              hasData
+                ? '<div style="font-size: 12px; color: #16a34a">✓</div>'
+                : ''
+            }
+          </div>`;
         }
-
         container.innerHTML = html;
       }
 
+      // ===== Reports / Views =====
+      function updateTotalsDisplay() {
+        const dateKey = getDateKey(selectedDate);
+        const data = dailyData[dateKey] || { study: 0, sleep: 0, wasted: 0 };
+        const total = data.study + data.sleep + data.wasted;
+        const t = document.getElementById('total-hours');
+        if (t)
+          t.textContent = `Total accounted: ${total.toFixed(1)} / 24 hours`;
+        const warning = document.getElementById('warning-message');
+        if (warning) {
+          if (total > 24) warning.classList.remove('hidden');
+          else warning.classList.add('hidden');
+        }
+      }
+      function updateInputView() {
+        document.getElementById('current-month-year').textContent =
+          currentMonth.toLocaleString('default', {
+            month: 'long',
+            year: 'numeric',
+          });
+        document.getElementById('selected-date').textContent =
+          selectedDate.toDateString();
+        updateCalendar();
+        const dateKey = getDateKey(selectedDate);
+        const data = dailyData[dateKey] || { study: 0, sleep: 0, wasted: 0 };
+        document.getElementById('study-input').value = data.study;
+        document.getElementById('sleep-input').value = data.sleep;
+        document.getElementById('wasted-input').value = data.wasted;
+        updateTotalsDisplay();
+        updatePatternsList();
+      }
+      function updateDailyView() {
+        const dateKey = getDateKey(selectedDate);
+        const data = dailyData[dateKey] || { study: 0, sleep: 0, wasted: 0 };
+        const patterns = wastedPatterns[dateKey] || [];
+        document.getElementById('daily-date').textContent =
+          selectedDate.toDateString();
+        document.getElementById(
+          'daily-study'
+        ).textContent = `${data.study} hrs`;
+        document.getElementById(
+          'daily-sleep'
+        ).textContent = `${data.sleep} hrs`;
+        document.getElementById(
+          'daily-wasted'
+        ).textContent = `${data.wasted} hrs`;
+        const patternsDiv = document.getElementById('daily-patterns');
+        if (patterns.length > 0) {
+          patternsDiv.innerHTML = `<h3 style="font-weight: 600; margin-bottom: 8px">Wasted Time Patterns:</h3><div style="display:flex; flex-wrap:wrap; gap:8px">${patterns
+            .map(
+              (p) =>
+                `<span style="padding:4px 12px; background-color:#f3f4f6; border-radius:20px; font-size:14px">${p}</span>`
+            )
+            .join('')}</div>`;
+        } else {
+          patternsDiv.innerHTML = '';
+        }
+      }
+      function calculateWeeklyReport(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const weeks = [];
+        let currentWeek = [];
+        let weekNum = 1;
+        for (let day = 1; day <= daysInMonth; day++) {
+          const d = new Date(year, month, day);
+          const dateKey = getDateKey(d);
+          const dayData = dailyData[dateKey] || {
+            study: 0,
+            sleep: 0,
+            wasted: 0,
+          };
+          currentWeek.push(dayData);
+          if (d.getDay() === 0 || day === daysInMonth) {
+            if (currentWeek.length > 0) {
+              const totals = currentWeek.reduce(
+                (acc, dd) => ({
+                  study: acc.study + dd.study,
+                  sleep: acc.sleep + dd.sleep,
+                  wasted: acc.wasted + dd.wasted,
+                }),
+                { study: 0, sleep: 0, wasted: 0 }
+              );
+              weeks.push({
+                weekNum: weekNum++,
+                days: currentWeek.length,
+                avgStudy: (totals.study / currentWeek.length).toFixed(2),
+                avgSleep: (totals.sleep / currentWeek.length).toFixed(2),
+                avgWasted: (totals.wasted / currentWeek.length).toFixed(2),
+                totalStudy: totals.study.toFixed(1),
+                totalSleep: totals.sleep.toFixed(1),
+                totalWasted: totals.wasted.toFixed(1),
+              });
+              currentWeek = [];
+            }
+          }
+        }
+        return weeks;
+      }
+      function updateWeeklyView() {
+        document.getElementById('weekly-month').textContent =
+          reportRange.toLocaleString('default', {
+            month: 'long',
+            year: 'numeric',
+          });
+        const weeks = calculateWeeklyReport(reportRange);
+        const container = document.getElementById('weekly-content');
+        container.innerHTML = weeks
+          .map(
+            (week) => `
+          <div class="week-card">
+            <h3 style="font-weight:600; margin-bottom:12px">Week ${week.weekNum} (${week.days} days)</h3>
+            <div class="stats-grid">
+              <div><span style="color:#6b7280; font-size:14px">Study</span><div style="font-size:18px; font-weight:600; color:#3b82f6">Avg: ${week.avgStudy} hrs/day</div><div style="font-size:14px; color:#9ca3af">Total: ${week.totalStudy} hrs</div></div>
+              <div><span style="color:#6b7280; font-size:14px">Sleep</span><div style="font-size:18px; font-weight:600; color:#a855f7">Avg: ${week.avgSleep} hrs/day</div><div style="font-size:14px; color:#9ca3af">Total: ${week.totalSleep} hrs</div></div>
+              <div><span style="color:#6b7280; font-size:14px">Wasted</span><div style="font-size:18px; font-weight:600; color:#ef4444">Avg: ${week.avgWasted} hrs/day</div><div style="font-size:14px; color:#9ca3af">Total: ${week.totalWasted} hrs</div></div>
+            </div>
+          </div>`
+          )
+          .join('');
+      }
+      function calculateMonthlyReport(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let totals = { study: 0, sleep: 0, wasted: 0 };
+        let daysTracked = 0;
+        for (let day = 1; day <= daysInMonth; day++) {
+          const d = new Date(year, month, day);
+          const dateKey = getDateKey(d);
+          const dayData = dailyData[dateKey];
+          if (dayData) {
+            totals.study += dayData.study || 0;
+            totals.sleep += dayData.sleep || 0;
+            totals.wasted += dayData.wasted || 0;
+            daysTracked++;
+          }
+        }
+        return {
+          totals,
+          averages: {
+            study:
+              daysTracked > 0 ? (totals.study / daysTracked).toFixed(2) : 0,
+            sleep:
+              daysTracked > 0 ? (totals.sleep / daysTracked).toFixed(2) : 0,
+            wasted:
+              daysTracked > 0 ? (totals.wasted / daysTracked).toFixed(2) : 0,
+          },
+          daysTracked,
+          daysInMonth,
+        };
+      }
+      function calculatePatternAnalysis() {
+        const patternCount = {};
+        Object.values(wastedPatterns).forEach((arr) => {
+          (arr || []).forEach((p) => {
+            const n = p.toLowerCase();
+            patternCount[n] = (patternCount[n] || 0) + 1;
+          });
+        });
+        return Object.entries(patternCount)
+          .sort((a, b) => b[1] - a[1])
+          .map(([pattern, count]) => ({ pattern, count }));
+      }
+      function updateMonthlyView() {
+        document.getElementById('monthly-month').textContent =
+          reportRange.toLocaleString('default', {
+            month: 'long',
+            year: 'numeric',
+          });
+        const report = calculateMonthlyReport(reportRange);
+        const weeks = calculateWeeklyReport(reportRange);
+        const container = document.getElementById('monthly-content');
+        container.innerHTML = `
+          <div class="stats-grid">
+            <div class="stat-card blue"><span style="color:#6b7280; font-size:14px">Total Study</span><div style="font-size:24px; font-weight:bold; color:#3b82f6">${report.totals.study.toFixed(
+              1
+            )} hrs</div><div style="font-size:14px; color:#9ca3af">Avg: ${
+          report.averages.study
+        } hrs/day</div></div>
+            <div class="stat-card purple"><span style="color:#6b7280; font-size:14px">Total Sleep</span><div style="font-size:24px; font-weight:bold; color:#a855f7">${report.totals.sleep.toFixed(
+              1
+            )} hrs</div><div style="font-size:14px; color:#9ca3af">Avg: ${
+          report.averages.sleep
+        } hrs/day</div></div>
+            <div class="stat-card red"><span style="color:#6b7280; font-size:14px">Total Wasted</span><div style="font-size:24px; font-weight:bold; color:#ef4444">${report.totals.wasted.toFixed(
+              1
+            )} hrs</div><div style="font-size:14px; color:#9ca3af">Avg: ${
+          report.averages.wasted
+        } hrs/day</div></div>
+          </div>
+          <div style="margin: 24px 0"><p style="color:#6b7280">Days tracked: ${
+            report.daysTracked
+          } / ${report.daysInMonth}</p></div>
+          <div style="border-top:1px solid #e5e7eb; padding-top:16px">
+            <h3 style="font-weight:600; margin-bottom:12px">Weekly Breakdown</h3>
+            <div>
+              ${weeks
+                .map(
+                  (
+                    w
+                  ) => `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background-color:#f9fafb; border-radius:8px; margin-bottom:8px">
+                <span style="font-weight:500">Week ${w.weekNum}</span>
+                <div style="display:flex; gap:16px; font-size:14px">
+                  <span style="color:#3b82f6">Study: ${w.avgStudy} hrs/day</span>
+                  <span style="color:#a855f7">Sleep: ${w.avgSleep} hrs/day</span>
+                  <span style="color:#ef4444">Wasted: ${w.avgWasted} hrs/day</span>
+                </div>
+              </div>`
+                )
+                .join('')}
+            </div>
+          </div>`;
+      }
+      function updateYearlyView() {
+        const year = reportRange.getFullYear();
+        document.getElementById('yearly-year').textContent = year;
+        const months = [];
+        const currentMonthIndex = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+        for (let m = 0; m < 12; m++) {
+          const date = new Date(year, m, 1);
+          const report = calculateMonthlyReport(date);
+          months.push({
+            name: date.toLocaleString('default', { month: 'long' }),
+            ...report,
+          });
+        }
+        const tbody = document.getElementById('yearly-table-body');
+        tbody.innerHTML = months
+          .map((month, index) => {
+            const isTracked = month.daysTracked > 0;
+            const isCurrent =
+              year === currentYear && index === currentMonthIndex;
+            let rowStyle = '';
+            if (isCurrent) {
+              rowStyle =
+                'background: linear-gradient(to right, #faf5ff, #add8e6);';
+            } else if (isTracked) {
+              rowStyle = 'background-color: #f0fdf4;';
+            } else {
+              rowStyle = 'background-color: #e7e8eb;';
+            }
+            return `<tr style="${rowStyle}">
+            <td style="font-weight:500">${month.name}</td>
+            <td class="text-center"><div style="color:#3b82f6">${formatHours(
+              month.totals.study
+            )}</div><div style="font-size:12px; color:#9ca3af">(${
+              month.averages.study
+            }/day)</div></td>
+            <td class="text-center"><div style="color:#a855f7">${formatHours(
+              month.totals.sleep
+            )}</div><div style="font-size:12px; color:#9ca3af">(${
+              month.averages.sleep
+            }/day)</div></td>
+            <td class="text-center"><div style="color:#ef4444">${formatHours(
+              month.totals.wasted
+            )}</div><div style="font-size:12px; color:#9ca3af">(${
+              month.averages.wasted
+            }/day)</div></td>
+            <td class="text-center">${month.daysTracked}</td>
+          </tr>`;
+          })
+          .join('');
+        const yearTotals = months.reduce(
+          (acc, m) => ({
+            study: acc.study + m.totals.study,
+            sleep: acc.sleep + m.totals.sleep,
+            wasted: acc.wasted + m.totals.wasted,
+            daysTracked: acc.daysTracked + m.daysTracked,
+          }),
+          { study: 0, sleep: 0, wasted: 0, daysTracked: 0 }
+        );
+        const tfoot = document.getElementById('yearly-table-footer');
+        tfoot.innerHTML = `<tr class="year-total"><td>Year Total</td><td class="text-center" style="color:#3b82f6">${yearTotals.study.toFixed(
+          1
+        )}</td><td class="text-center" style="color:#a855f7">${yearTotals.sleep.toFixed(
+          1
+        )}</td><td class="text-center" style="color:#ef4444">${yearTotals.wasted.toFixed(
+          1
+        )}</td><td class="text-center">${yearTotals.daysTracked}</td></tr>`;
+        const patterns = calculatePatternAnalysis();
+        const patternsDiv = document.getElementById('yearly-patterns');
+        if (patterns.length > 0) {
+          patternsDiv.innerHTML = `<h3 style="font-weight:600; margin-bottom:12px; margin-top:24px; padding-top:16px; border-top:1px solid #e5e7eb">Top Wasted Time Patterns (All Time)</h3>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap:16px">
+              ${patterns
+                .slice(0, 10)
+                .map(
+                  (item) =>
+                    `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background-color:#fef2f2; border-radius:8px"><span style="font-weight:500">${item.pattern}</span><span style="color:#ef4444; font-weight:bold">${item.count} times</span></div>`
+                )
+                .join('')}
+            </div>`;
+        } else {
+          patternsDiv.innerHTML = '';
+        }
+      }
+
+      // ===== Reflection =====
+      function initReflection() {
+        const el = document.getElementById('reflection-input');
+        if (!el) return;
+        const dateKey = getDateKey(selectedDate);
+        const isPastDay = isPast(dateKey);
+        el.disabled = isPastDay;
+        el.value = reflections[dateKey] || '';
+      }
+      function clearReflection() {
+        const dateKey = getDateKey(selectedDate);
+        if (confirm('Clear your saved answer?')) {
+          reflections[dateKey] = '';
+          saveData();
+          document.getElementById('reflection-input').value = '';
+        }
+      }
+
+      // ===== Update display router =====
       function updateDisplay() {
         switch (viewMode) {
+          case 'hourly':
+            renderHourly();
+            initReflection();
+            break;
           case 'input':
             updateInputView();
             break;
@@ -809,411 +1502,32 @@
         }
       }
 
-      function updateInputView() {
-        // Update calendar header
-        document.getElementById('current-month-year').textContent =
-          currentMonth.toLocaleString('default', {
-            month: 'long',
-            year: 'numeric',
+      // ===== Init =====
+      window.addEventListener('DOMContentLoaded', function () {
+        loadData();
+        const reflectionInput = document.getElementById('reflection-input');
+        if (reflectionInput) {
+          reflectionInput.addEventListener('input', () => {
+            const dateKey = getDateKey(selectedDate);
+            reflections[dateKey] = reflectionInput.value;
+            saveData();
           });
-
-        // Update selected date
-        document.getElementById('selected-date').textContent =
-          selectedDate.toDateString();
-
-        // Update calendar
-        updateCalendar();
-
-        // Update inputs
-        const dateKey = getDateKey(selectedDate);
-        const data = dailyData[dateKey] || { study: 0, sleep: 0, wasted: 0 };
-
-        document.getElementById('study-input').value = data.study;
-        document.getElementById('sleep-input').value = data.sleep;
-        document.getElementById('wasted-input').value = data.wasted;
-
-        // Update total
-        const total = data.study + data.sleep + data.wasted;
-        document.getElementById(
-          'total-hours'
-        ).textContent = `Total accounted: ${total.toFixed(1)} / 24 hours`;
-
-        const warning = document.getElementById('warning-message');
-        if (total > 24) {
-          warning.classList.remove('hidden');
-        } else {
-          warning.classList.add('hidden');
         }
-
-        // Update patterns
-        updatePatternsList();
-      }
-
-      function updateDailyView() {
-        const dateKey = getDateKey(selectedDate);
-        const data = dailyData[dateKey] || { study: 0, sleep: 0, wasted: 0 };
-        const patterns = wastedPatterns[dateKey] || [];
-
-        document.getElementById('daily-date').textContent =
-          selectedDate.toDateString();
-        document.getElementById(
-          'daily-study'
-        ).textContent = `${data.study} hrs`;
-        document.getElementById(
-          'daily-sleep'
-        ).textContent = `${data.sleep} hrs`;
-        document.getElementById(
-          'daily-wasted'
-        ).textContent = `${data.wasted} hrs`;
-
-        const patternsDiv = document.getElementById('daily-patterns');
-        if (patterns.length > 0) {
-          patternsDiv.innerHTML = `
-                    <h3 style="font-weight: 600; margin-bottom: 8px">Wasted Time Patterns:</h3>
-                    <div style="display: flex; flex-wrap: wrap; gap: 8px">
-                        ${patterns
-                          .map(
-                            (p) =>
-                              `<span style="padding: 4px 12px; background-color: #f3f4f6; border-radius: 20px; font-size: 14px">${p}</span>`
-                          )
-                          .join('')}
-                    </div>
-                `;
-        } else {
-          patternsDiv.innerHTML = '';
-        }
-      }
-
-      function calculateWeeklyReport(date) {
-        const year = date.getFullYear();
-        const month = date.getMonth();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        const weeks = [];
-        let currentWeek = [];
-        let weekNum = 1;
-
-        for (let day = 1; day <= daysInMonth; day++) {
-          const d = new Date(year, month, day);
-          const dateKey = getDateKey(d);
-          const dayData = dailyData[dateKey] || {
-            study: 0,
-            sleep: 0,
-            wasted: 0,
-          };
-
-          currentWeek.push(dayData);
-
-          if (d.getDay() === 0 || day === daysInMonth) {
-            if (currentWeek.length > 0) {
-              const totals = currentWeek.reduce(
-                (acc, day) => ({
-                  study: acc.study + day.study,
-                  sleep: acc.sleep + day.sleep,
-                  wasted: acc.wasted + day.wasted,
-                }),
-                { study: 0, sleep: 0, wasted: 0 }
-              );
-
-              weeks.push({
-                weekNum: weekNum++,
-                days: currentWeek.length,
-                avgStudy: (totals.study / currentWeek.length).toFixed(2),
-                avgSleep: (totals.sleep / currentWeek.length).toFixed(2),
-                avgWasted: (totals.wasted / currentWeek.length).toFixed(2),
-                totalStudy: totals.study.toFixed(1),
-                totalSleep: totals.sleep.toFixed(1),
-                totalWasted: totals.wasted.toFixed(1),
-              });
-              currentWeek = [];
+        document
+          .getElementById('pattern-input')
+          ?.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+              addPattern();
             }
-          }
-        }
-
-        return weeks;
-      }
-
-      function updateWeeklyView() {
-        document.getElementById('weekly-month').textContent =
-          reportRange.toLocaleString('default', {
-            month: 'long',
-            year: 'numeric',
           });
-
-        const weeks = calculateWeeklyReport(reportRange);
-        const container = document.getElementById('weekly-content');
-
-        container.innerHTML = weeks
-          .map(
-            (week) => `
-                <div class="week-card">
-                    <h3 style="font-weight: 600; margin-bottom: 12px">Week ${week.weekNum} (${week.days} days)</h3>
-                    
-                    <div class="stats-grid">
-                        <div>
-                            <span style="color: #6b7280; font-size: 14px">Study</span>
-                            <div style="font-size: 18px; font-weight: 600; color: #3b82f6">
-                                Avg: ${week.avgStudy} hrs/day
-                            </div>
-                            <div style="font-size: 14px; color: #9ca3af">
-                                Total: ${week.totalStudy} hrs
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <span style="color: #6b7280; font-size: 14px">Sleep</span>
-                            <div style="font-size: 18px; font-weight: 600; color: #a855f7">
-                                Avg: ${week.avgSleep} hrs/day
-                            </div>
-                            <div style="font-size: 14px; color: #9ca3af">
-                                Total: ${week.totalSleep} hrs
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <span style="color: #6b7280; font-size: 14px">Wasted</span>
-                            <div style="font-size: 18px; font-weight: 600; color: #ef4444">
-                                Avg: ${week.avgWasted} hrs/day
-                            </div>
-                            <div style="font-size: 14px; color: #9ca3af">
-                                Total: ${week.totalWasted} hrs
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `
-          )
-          .join('');
-      }
-
-      function calculateMonthlyReport(date) {
-        const year = date.getFullYear();
-        const month = date.getMonth();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        let totals = { study: 0, sleep: 0, wasted: 0 };
-        let daysTracked = 0;
-
-        for (let day = 1; day <= daysInMonth; day++) {
-          const d = new Date(year, month, day);
-          const dateKey = getDateKey(d);
-          const dayData = dailyData[dateKey];
-
-          if (dayData) {
-            totals.study += dayData.study || 0;
-            totals.sleep += dayData.sleep || 0;
-            totals.wasted += dayData.wasted || 0;
-            daysTracked++;
+        ['study-input', 'sleep-input', 'wasted-input'].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.addEventListener('input', handleInputChange);
           }
-        }
-
-        return {
-          totals,
-          averages: {
-            study:
-              daysTracked > 0 ? (totals.study / daysTracked).toFixed(2) : 0,
-            sleep:
-              daysTracked > 0 ? (totals.sleep / daysTracked).toFixed(2) : 0,
-            wasted:
-              daysTracked > 0 ? (totals.wasted / daysTracked).toFixed(2) : 0,
-          },
-          daysTracked,
-          daysInMonth,
-        };
-      }
-
-      function calculatePatternAnalysis() {
-        const patternCount = {};
-
-        Object.values(wastedPatterns).forEach((dayPatterns) => {
-          dayPatterns.forEach((pattern) => {
-            const normalized = pattern.toLowerCase();
-            patternCount[normalized] = (patternCount[normalized] || 0) + 1;
-          });
         });
-
-        return Object.entries(patternCount)
-          .sort((a, b) => b[1] - a[1])
-          .map(([pattern, count]) => ({ pattern, count }));
-      }
-
-      function updateMonthlyView() {
-        document.getElementById('monthly-month').textContent =
-          reportRange.toLocaleString('default', {
-            month: 'long',
-            year: 'numeric',
-          });
-
-        const report = calculateMonthlyReport(reportRange);
-        const weeks = calculateWeeklyReport(reportRange);
-        const patterns = calculatePatternAnalysis();
-
-        const container = document.getElementById('monthly-content');
-
-        container.innerHTML = `
-                <div class="stats-grid">
-                    <div class="stat-card blue">
-                        <span style="color: #6b7280; font-size: 14px">Total Study</span>
-                        <div style="font-size: 24px; font-weight: bold; color: #3b82f6">
-                            ${report.totals.study.toFixed(1)} hrs
-                        </div>
-                        <div style="font-size: 14px; color: #9ca3af">
-                            Avg: ${report.averages.study} hrs/day
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card purple">
-                        <span style="color: #6b7280; font-size: 14px">Total Sleep</span>
-                        <div style="font-size: 24px; font-weight: bold; color: #a855f7">
-                            ${report.totals.sleep.toFixed(1)} hrs
-                        </div>
-                        <div style="font-size: 14px; color: #9ca3af">
-                            Avg: ${report.averages.sleep} hrs/day
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card red">
-                        <span style="color: #6b7280; font-size: 14px">Total Wasted</span>
-                        <div style="font-size: 24px; font-weight: bold; color: #ef4444">
-                            ${report.totals.wasted.toFixed(1)} hrs
-                        </div>
-                        <div style="font-size: 14px; color: #9ca3af">
-                            Avg: ${report.averages.wasted} hrs/day
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="margin: 24px 0">
-                    <p style="color: #6b7280">Days tracked: ${
-                      report.daysTracked
-                    } / ${report.daysInMonth}</p>
-                </div>
-                
-                <div style="border-top: 1px solid #e5e7eb; padding-top: 16px">
-                    <h3 style="font-weight: 600; margin-bottom: 12px">Weekly Breakdown</h3>
-                    <div>
-                        ${weeks
-                          .map(
-                            (week) => `
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: #f9fafb; border-radius: 8px; margin-bottom: 8px">
-                                <span style="font-weight: 500">Week ${week.weekNum}</span>
-                                <div style="display: flex; gap: 16px; font-size: 14px">
-                                    <span style="color: #3b82f6">Study: ${week.avgStudy} hrs/day</span>
-                                    <span style="color: #a855f7">Sleep: ${week.avgSleep} hrs/day</span>
-                                    <span style="color: #ef4444">Wasted: ${week.avgWasted} hrs/day</span>
-                                </div>
-                            </div>
-                        `
-                          )
-                          .join('')}
-                    </div>
-                </div>
-                
-               
-            `;
-      }
-
-      function updateYearlyView() {
-        const year = reportRange.getFullYear();
-        document.getElementById('yearly-year').textContent = year;
-
-        const months = [];
-        for (let month = 0; month < 12; month++) {
-          const date = new Date(year, month, 1);
-          const report = calculateMonthlyReport(date);
-          months.push({
-            name: date.toLocaleString('default', { month: 'long' }),
-            ...report,
-          });
-        }
-
-        const tbody = document.getElementById('yearly-table-body');
-        tbody.innerHTML = months
-          .map(
-            (month) => `
-                <tr>
-                    <td style="font-weight: 500">${month.name}</td>
-                    <td class="text-center">
-                        <div style="color: #3b82f6">${month.totals.study.toFixed(
-                          1
-                        )}</div>
-                        <div style="font-size: 12px; color: #9ca3af">(${
-                          month.averages.study
-                        }/day)</div>
-                    </td>
-                    <td class="text-center">
-                        <div style="color: #a855f7">${month.totals.sleep.toFixed(
-                          1
-                        )}</div>
-                        <div style="font-size: 12px; color: #9ca3af">(${
-                          month.averages.sleep
-                        }/day)</div>
-                    </td>
-                    <td class="text-center">
-                        <div style="color: #ef4444">${month.totals.wasted.toFixed(
-                          1
-                        )}</div>
-                        <div style="font-size: 12px; color: #9ca3af">(${
-                          month.averages.wasted
-                        }/day)</div>
-                    </td>
-                    <td class="text-center">${month.daysTracked}</td>
-                </tr>
-            `
-          )
-          .join('');
-
-        const yearTotals = months.reduce(
-          (acc, month) => ({
-            study: acc.study + month.totals.study,
-            sleep: acc.sleep + month.totals.sleep,
-            wasted: acc.wasted + month.totals.wasted,
-            daysTracked: acc.daysTracked + month.daysTracked,
-          }),
-          { study: 0, sleep: 0, wasted: 0, daysTracked: 0 }
-        );
-
-        const tfoot = document.getElementById('yearly-table-footer');
-        tfoot.innerHTML = `
-                <tr class="year-total">
-                    <td>Year Total</td>
-                    <td class="text-center" style="color: #3b82f6">${yearTotals.study.toFixed(
-                      1
-                    )}</td>
-                    <td class="text-center" style="color: #a855f7">${yearTotals.sleep.toFixed(
-                      1
-                    )}</td>
-                    <td class="text-center" style="color: #ef4444">${yearTotals.wasted.toFixed(
-                      1
-                    )}</td>
-                    <td class="text-center">${yearTotals.daysTracked}</td>
-                </tr>
-            `;
-
-        const patterns = calculatePatternAnalysis();
-        const patternsDiv = document.getElementById('yearly-patterns');
-
-        if (patterns.length > 0) {
-          patternsDiv.innerHTML = `
-                    <h3 style="font-weight: 600; margin-bottom: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #e5e7eb">
-                        Top Wasted Time Patterns (All Time)
-                    </h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
-                        ${patterns
-                          .slice(0, 10)
-                          .map(
-                            (item) => `
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: #fef2f2; border-radius: 8px">
-                                <span style=font-weight: 500">${item.pattern}</span>
-                                <span style="color: #ef4444; font-weight: bold">${item.count} times</span>
-                            </div>
-                        `
-                          )
-                          .join('')}
-                    </div>
-                `;
-        }
-      }
+        updateDisplay();
+      });
     </script>
   </body>
 </html>
