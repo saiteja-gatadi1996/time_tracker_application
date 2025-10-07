@@ -347,6 +347,7 @@
         border: 1px solid #d1d5db;
         border-radius: 8px;
         font-size: 13px;
+        min-width: 70px;
       }
 
       .pill {
@@ -402,6 +403,9 @@
       @media (max-width: 768px) {
         .container {
           padding: 10px;
+        }
+        .weekly-breakdown {
+          min-width: 78px;
         }
         .grid-container {
           grid-template-columns: 1fr;
@@ -577,7 +581,16 @@
                 <button class="button" onclick="exportAllData()">
                   Export Data
                 </button>
-                <label class="button" for="import-file" style="cursor: pointer"
+                <label
+                  class="button"
+                  for="import-file"
+                  style="
+                    display: flex;
+                    gap: 8px;
+                    cursor: pointer;
+                    place-content: center;
+                    align-items: center;
+                  "
                   >Import Data</label
                 >
                 <input
@@ -588,9 +601,22 @@
                   onchange="importAllData(event)"
                 />
                 <button class="button" onclick="downloadExampleData()">
-                  Download Saiteja's Tracking Data
+                  Download Example Data
                 </button>
               </div>
+
+              <p
+                style="
+                  background: #f2f2f2;
+                  padding: 10px;
+                  border-radius: 6px;
+                  margin-top: 15px;
+                  color: red;
+                "
+              >
+                Note: After importing my example data, make sure to clear your
+                browser's local storage to remove my data.
+              </p>
             </div>
           </div>
         </div>
@@ -1417,7 +1443,7 @@
                   (
                     w
                   ) => `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background-color:#f9fafb; border-radius:8px; margin-bottom:8px">
-                <span style="font-weight:500">Week ${w.weekNum}</span>
+                <span class="weekly-breakdown" style="font-weight:500">Week ${w.weekNum}</span>
                 <div style="display:flex; gap:16px; font-size:14px">
                   <span style="color:#3b82f6">Study: ${w.avgStudy} hrs/day</span>
                   <span style="color:#a855f7">Sleep: ${w.avgSleep} hrs/day</span>
