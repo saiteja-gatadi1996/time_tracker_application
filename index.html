@@ -211,11 +211,12 @@
         gap: 8px;
       }
       .icon-button {
-        padding: 8px;
-        background-color: transparent;
+        padding: 12px;
+        background-color: #cdeaf4;
         border: none;
         border-radius: 8px;
         cursor: pointer;
+        font-size: 20px;
       }
       .icon-button:hover {
         background-color: #f3f4f6;
@@ -295,9 +296,10 @@
       }
       .pill {
         display: inline-block;
-        padding: 4px 10px;
+        padding: 6px 14px;
         border-radius: 9999px;
-        font-size: 12px;
+        font-size: 21px;
+        font-weight: 600;
       }
       .pill.blue {
         background: #eff6ff;
@@ -432,6 +434,22 @@
                 </button>
               </div>
             </div>
+            <p
+              id="past-message"
+              class="hidden"
+              style="
+                color: #991b1b;
+                font-size: 24px;
+                font-style: italic;
+                font-weight: 600;
+                margin: 0 0 12px 0;
+                padding: 4px 14px;
+                border-radius: 10px;
+                background-color: #fef2f2;
+              "
+            >
+              You cannot change the past; you can only learn from it.
+            </p>
             <div class="total-info" style="margin-bottom: 12px">
               <span class="pill blue"
                 >Studied: <span id="hourly-study">0</span> hrs</span
@@ -920,6 +938,12 @@
         document.getElementById('hourly-date').textContent = new Date(
           selectedDate
         ).toDateString();
+        const pastMsg = document.getElementById('past-message');
+        if (past) {
+          pastMsg.classList.remove('hidden');
+        } else {
+          pastMsg.classList.add('hidden');
+        }
         const tbody = document.getElementById('hourly-body');
         tbody.innerHTML = rows
           .map((row, h) => {
