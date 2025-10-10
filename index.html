@@ -11,7 +11,6 @@
         padding: 0;
         box-sizing: border-box;
       }
-
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
           'Oxygen', 'Ubuntu', sans-serif;
@@ -19,12 +18,10 @@
         color: #1f2937;
         line-height: 1.5;
       }
-
       .container {
         margin: 0 auto;
         padding: 20px;
       }
-
       .header {
         background-color: white;
         border-radius: 8px;
@@ -32,19 +29,16 @@
         padding: 24px;
         margin-bottom: 24px;
       }
-
       .title {
         font-size: 30px;
         font-weight: bold;
         margin-bottom: 16px;
       }
-
       .button-group {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
       }
-
       .button {
         padding: 8px 16px;
         border-radius: 8px;
@@ -56,49 +50,41 @@
         background-color: #f3f4f6;
         color: #374151;
       }
-
       .button:hover {
         background-color: #e5e7eb;
       }
-
       .button.active {
         background-color: #3b82f6;
         color: white;
       }
-
       .grid-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
         gap: 24px;
       }
-
       .card {
         background-color: white;
         border-radius: 8px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         padding: 24px;
       }
-
       .card-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 16px;
       }
-
       .card-title {
         font-size: 20px;
         font-weight: 600;
         padding: 10px;
         border-radius: 8px;
       }
-
       .calendar-grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         gap: 4px;
       }
-
       .day-header {
         text-align: center;
         font-size: 14px;
@@ -106,7 +92,6 @@
         color: #6b7280;
         padding: 8px;
       }
-
       .day-cell {
         padding: 8px;
         text-align: center;
@@ -115,29 +100,23 @@
         transition: all 0.3s;
         min-height: 40px;
       }
-
       .day-cell:hover {
         background-color: #f3f4f6;
       }
-
       .day-cell.selected {
         background-color: #3b82f6;
         color: white;
       }
-
       .day-cell.today {
         background-color: #dbeafe;
         color: #1e3a8a;
       }
-
       .day-cell.has-data {
         background-color: #f0fdf4;
       }
-
       .form-group {
         margin-bottom: 16px;
       }
-
       .label {
         display: flex;
         align-items: center;
@@ -147,7 +126,6 @@
         color: #374151;
         margin-bottom: 8px;
       }
-
       .input {
         width: 100%;
         padding: 8px 12px;
@@ -155,22 +133,18 @@
         border-radius: 8px;
         font-size: 14px;
       }
-
       .input:focus {
         outline: none;
         border-color: #3b82f6;
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
       }
-
       .input-group {
         display: flex;
         gap: 8px;
       }
-
       .input-group .input {
         flex: 1;
       }
-
       .pattern-chip {
         display: inline-flex;
         align-items: center;
@@ -181,7 +155,6 @@
         font-size: 14px;
         margin: 4px;
       }
-
       .pattern-chip button {
         margin-left: 8px;
         background: none;
@@ -190,31 +163,25 @@
         font-size: 18px;
         cursor: pointer;
       }
-
       .stats-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 16px;
         margin-bottom: 24px;
       }
-
       .stat-card {
         padding: 16px;
         border-radius: 8px;
       }
-
       .stat-card.blue {
         background-color: #b8eab8;
       }
-
       .stat-card.purple {
         background-color: #add8e6;
       }
-
       .stat-card.red {
         background-color: #fef2f2;
       }
-
       .stat-header {
         display: flex;
         justify-content: space-between;
@@ -222,34 +189,27 @@
         margin-bottom: 8px;
         color: #6b7280;
       }
-
       .stat-value {
         font-size: 24px;
         font-weight: bold;
       }
-
       .stat-value.blue {
         color: #3b82f6;
       }
-
       .stat-value.purple {
         color: #a855f7;
       }
-
       .stat-value.red {
         color: #ef4444;
       }
-
       .icon {
         width: 20px;
         height: 20px;
       }
-
       .nav-buttons {
         display: flex;
         gap: 8px;
       }
-
       .icon-button {
         padding: 8px;
         background-color: transparent;
@@ -257,58 +217,47 @@
         border-radius: 8px;
         cursor: pointer;
       }
-
       .icon-button:hover {
         background-color: #f3f4f6;
       }
-
       .total-info {
         padding-top: 16px;
         border-top: 1px solid #e5e7eb;
         font-size: 14px;
         color: #6b7280;
       }
-
       .warning-text {
         color: #dc2626;
         margin-top: 8px;
       }
-
       table {
         width: 100%;
         border-collapse: collapse;
       }
-
       th,
       td {
         padding: 8px;
         text-align: left;
       }
-
       th {
         border-bottom: 2px solid #e5e7eb;
         font-weight: 600;
       }
-
       td {
         border-bottom: 1px solid #e5e7eb;
       }
-
       .text-center {
         text-align: center;
       }
-
       .week-card {
         border: 1px solid #e5e7eb;
         border-radius: 8px;
         padding: 16px;
         margin-bottom: 16px;
       }
-
       .pattern-list {
         margin-top: 16px;
       }
-
       .pattern-item {
         display: flex;
         justify-content: space-between;
@@ -318,21 +267,17 @@
         border-radius: 8px;
         margin-bottom: 8px;
       }
-
       .hidden {
         display: none;
       }
-
       .overflow-x-auto {
         overflow-x: auto;
       }
-
       .year-total {
         background-color: #f7f70a;
         font-weight: 600;
         font-size: 20px;
       }
-
       /* Hourly view */
       .hourly-table thead th {
         position: sticky;
@@ -340,7 +285,6 @@
         background: #fff;
         z-index: 1;
       }
-
       .activity-select {
         width: 100%;
         padding: 6px 8px;
@@ -349,31 +293,26 @@
         font-size: 13px;
         min-width: 70px;
       }
-
       .pill {
         display: inline-block;
         padding: 4px 10px;
         border-radius: 9999px;
         font-size: 12px;
       }
-
       .pill.blue {
         background: #eff6ff;
         color: #000;
         background-color: #b8eab8;
         border: none;
       }
-
       .pill.purple {
         background: #add8e6;
         color: #000;
       }
-
       .pill.red {
         background: #fef2f2;
         color: #991b1b;
       }
-
       .pill.gray {
         background: #f3f4f6;
         color: #374151;
@@ -476,7 +415,6 @@
           </button>
         </div>
       </header>
-
       <!-- HOURLY TRACKER (New First Page) -->
       <div id="hourly-view" class="view">
         <div class="grid-container">
@@ -554,7 +492,6 @@
               ⚠️ Accounted time exceeds 24 hours!
             </p>
           </div>
-
           <div class="card">
             <div class="form-group" style="margin-top: 16px">
               <label class="label"
@@ -600,11 +537,7 @@
                   accept="application/json"
                   onchange="importAllData(event)"
                 />
-                <button class="button" onclick="downloadExampleData()">
-                  Download Example Data
-                </button>
               </div>
-
               <p
                 style="
                   background: #f2f2f2;
@@ -621,7 +554,6 @@
           </div>
         </div>
       </div>
-
       <!-- Input View (original) -->
       <div id="input-view" class="view hidden">
         <div class="grid-container">
@@ -644,7 +576,6 @@
             </div>
             <div id="calendar-days" class="calendar-grid"></div>
           </div>
-
           <div class="card">
             <h2 class="card-title">
               Data Entry for <span id="selected-date"></span>
@@ -662,7 +593,6 @@
               you missed updating it for any day, you can manually enter the
               values here.
             </p>
-
             <div style="margin-top: 24px">
               <div class="form-group">
                 <label class="label"> 🧠 Study Hours </label
@@ -725,7 +655,6 @@
           </div>
         </div>
       </div>
-
       <!-- Daily Report View -->
       <div id="daily-view" class="view hidden">
         <div class="card">
@@ -749,7 +678,6 @@
           <div id="daily-patterns"></div>
         </div>
       </div>
-
       <!-- Weekly Report View -->
       <div id="weekly-view" class="view hidden">
         <div class="card">
@@ -768,7 +696,6 @@
           <div id="weekly-content"></div>
         </div>
       </div>
-
       <!-- Monthly Report View -->
       <div id="monthly-view" class="view hidden">
         <div class="card">
@@ -787,7 +714,6 @@
           <div id="monthly-content"></div>
         </div>
       </div>
-
       <!-- Yearly Report View -->
       <div id="yearly-view" class="view hidden">
         <div class="card">
@@ -822,7 +748,6 @@
         </div>
       </div>
     </div>
-
     <script>
       // ===== State management =====
       let selectedDate = new Date();
@@ -833,9 +758,15 @@
       let wastedPatterns = {}; // { 'YYYY-MM-DD': [ 'post lunch', ... ] }
       let reflections = {}; // { 'YYYY-MM-DD': 'reflection text' }
       let viewMode = 'hourly';
-
-      const ACTIVITIES = ['Studying', 'Sleeping', 'Wasted', 'MISC'];
-
+      const MAIN_ACTIVITIES = ['Studying', 'Sleeping', 'Wasted', 'MISC'];
+      const MISC_ACTIVITIES = [
+        'MISC-BREAK',
+        'MISC-GYM',
+        'MISC-WOKE_UP',
+        'MISC-BREAKFAST',
+        'MISC-LUNCH',
+        'MISC-DINNER',
+      ];
       // ===== Helpers =====
       function pad(n) {
         return String(n).padStart(2, '0');
@@ -873,11 +804,9 @@
           Studying: '#b8eab8;',
           Sleeping: '#add8e6',
           Wasted: '#ffcccb',
-          MISC: '#fff5c0',
         };
-        return colors[act] || '';
+        return colors[act] || (act?.startsWith('MISC-') ? '#fff5c0' : '');
       }
-
       // ===== Storage =====
       function loadData() {
         const savedData = localStorage.getItem('timeTrackerData');
@@ -895,7 +824,6 @@
         localStorage.setItem('hourlyData', JSON.stringify(hourlyData));
         localStorage.setItem('reflections', JSON.stringify(reflections));
       }
-
       function exportAllData() {
         const blob = new Blob(
           [
@@ -934,7 +862,6 @@
         };
         reader.readAsText(file);
       }
-
       // ===== Navigation / View =====
       function setViewMode(mode, btn) {
         viewMode = mode;
@@ -982,7 +909,6 @@
         selectedDate = new Date(date);
         updateDisplay();
       }
-
       // ===== Hourly view =====
       function renderHourly() {
         const dateKey = getDateKey(selectedDate);
@@ -1008,63 +934,37 @@
               halfToHours(row.first, 'Wasted') +
               halfToHours(row.second, 'Wasted');
             return `<tr>
-            <td class="text-center" style="white-space:nowrap; font-weight:500">${hourLabel(
+<td class="text-center" style="white-space:nowrap; font-weight:500">${hourLabel(
               h
             )}</td>
-            <td class="text-center" style="background-color: ${getColor(
-              row.first
-            )};">
-              <select class="activity-select text-center" ${
-                past ? 'disabled' : ''
-              } onchange="setHalfActivity('${dateKey}', ${h}, 'first', this.value)">
-                ${
-                  !row.first
-                    ? '<option value="" selected disabled hidden>-- Select --</option>'
-                    : ''
-                }
-                ${ACTIVITIES.map(
-                  (a) =>
-                    `<option value="${a}" ${
-                      row.first === a ? 'selected' : ''
-                    }>${a}</option>`
-                ).join('')}
-              </select>
-              <div style="font-size:12px; color:#6b7280; margin-top:4px">${
-                ranges.first
-              }</div>
-            </td>
-            <td class="text-center" style="background-color: ${getColor(
-              row.second
-            )};">
-              <select class="activity-select text-center" ${
-                past ? 'disabled' : ''
-              } onchange="setHalfActivity('${dateKey}', ${h}, 'second', this.value)">
-                ${
-                  !row.second
-                    ? '<option value="" selected disabled hidden>-- Select --</option>'
-                    : ''
-                }
-                ${ACTIVITIES.map(
-                  (a) =>
-                    `<option value="${a}" ${
-                      row.second === a ? 'selected' : ''
-                    }>${a}</option>`
-                ).join('')}
-              </select>
-              <div style="font-size:12px; color:#6b7280; margin-top:4px">${
-                ranges.second
-              }</div>
-            </td>
-            <td class="text-center" style="${
+<td class="text-center" style="background-color: ${getColor(row.first)};">
+<select class="activity-select text-center" ${
+              past ? 'disabled' : ''
+            } onchange="setHalfActivity('${dateKey}', ${h}, 'first', this)">
+${getOptionsHtml(row.first)}
+</select>
+<div style="font-size:12px; color:#6b7280; margin-top:4px">${ranges.first}</div>
+</td>
+<td class="text-center" style="background-color: ${getColor(row.second)};">
+<select class="activity-select text-center" ${
+              past ? 'disabled' : ''
+            } onchange="setHalfActivity('${dateKey}', ${h}, 'second', this)">
+${getOptionsHtml(row.second)}
+</select>
+<div style="font-size:12px; color:#6b7280; margin-top:4px">${
+              ranges.second
+            }</div>
+</td>
+<td class="text-center" style="${
               studied > 0 ? 'background-color: #b8eab8;' : ''
             }">${studied}</td>
-            <td class="text-center" style="${
+<td class="text-center" style="${
               slept > 0 ? 'background-color: #add8e6;' : ''
             }">${slept}</td>
-            <td class="text-center" style="${
+<td class="text-center" style="${
               wasted > 0 ? 'background-color: #ffcccb;' : ''
             }">${wasted}</td>
-          </tr>`;
+</tr>`;
           })
           .join('');
         if (hasHourly) {
@@ -1088,13 +988,45 @@
           else warn.classList.add('hidden');
         }
       }
+      function getOptionsHtml(current) {
+        let isMisc = current && current.startsWith('MISC-');
+        let optionsHtml = '';
+        if (isMisc) {
+          optionsHtml += '<option value="Back">Back to main</option>';
+          optionsHtml += MISC_ACTIVITIES.map(
+            (a) =>
+              `<option value="${a}" ${
+                current === a ? 'selected' : ''
+              }>${a}</option>`
+          ).join('');
+          if (!current) {
+            optionsHtml =
+              '<option value="" selected disabled hidden>-- Select MISC --</option>' +
+              optionsHtml;
+          }
+        } else {
+          optionsHtml = MAIN_ACTIVITIES.map(
+            (a) =>
+              `<option value="${a}" ${
+                current === a ? 'selected' : ''
+              }>${a}</option>`
+          ).join('');
+          if (!current) {
+            optionsHtml =
+              '<option value="" selected disabled hidden>-- Select --</option>' +
+              optionsHtml;
+          }
+        }
+        return optionsHtml;
+      }
       function formatHours(num) {
         return Number.isInteger(num) ? num : num.toFixed(1);
       }
       function halfToHours(val, target) {
         return val === target ? 0.5 : 0;
       }
-      function setHalfActivity(dateKey, hour, half, value) {
+      function setHalfActivity(dateKey, hour, half, selectEl) {
+        const value = selectEl.value;
         if (!value) return;
         const isPastDay = isPast(dateKey);
         if (isPastDay) {
@@ -1107,6 +1039,25 @@
             first: null,
             second: null,
           }));
+        }
+        if (value === 'Back') {
+          selectEl.innerHTML =
+            '<option value="" selected disabled hidden>-- Select --</option>' +
+            MAIN_ACTIVITIES.map(
+              (a) => `<option value="${a}">${a}</option>`
+            ).join('');
+          hourlyData[dateKey][hour][half] = null;
+          saveData();
+          recalcFromHourly(dateKey);
+          renderHourly();
+          return;
+        } else if (value === 'MISC') {
+          selectEl.innerHTML =
+            '<option value="" selected disabled hidden>-- Select MISC --</option><option value="Back">Back to main</option>' +
+            MISC_ACTIVITIES.map(
+              (a) => `<option value="${a}">${a}</option>`
+            ).join('');
+          return;
         }
         hourlyData[dateKey][hour][half] = value;
         saveData();
@@ -1151,11 +1102,11 @@
         let misc = 0;
         rows.forEach((r) => {
           misc +=
-            (r.first === 'MISC' ? 0.5 : 0) + (r.second === 'MISC' ? 0.5 : 0);
+            (r.first?.startsWith('MISC-') ? 0.5 : 0) +
+            (r.second?.startsWith('MISC-') ? 0.5 : 0);
         });
         return misc;
       }
-
       // ===== Input view (original) =====
       function handleInputChange() {
         const dateKey = getDateKey(selectedDate);
@@ -1205,7 +1156,6 @@
           )
           .join('');
       }
-
       // ===== Calendar =====
       function updateCalendar() {
         const year = currentMonth.getFullYear();
@@ -1229,17 +1179,12 @@
           else if (isToday) classes += ' today';
           else if (hasData) classes += ' has-data';
           html += `<div class="${classes}" onclick="selectDate(new Date(${year}, ${month}, ${day}))">
-            <div style="font-weight: 500">${day}</div>
-            ${
-              hasData
-                ? '<div style="font-size: 12px; color: #16a34a">✓</div>'
-                : ''
-            }
-          </div>`;
+<div style="font-weight: 500">${day}</div>
+${hasData ? '<div style="font-size: 12px; color: #16a34a">✓</div>' : ''}
+</div>`;
         }
         container.innerHTML = html;
       }
-
       // ===== Reports / Views =====
       function updateTotalsDisplay() {
         const dateKey = getDateKey(selectedDate);
@@ -1351,14 +1296,14 @@
         container.innerHTML = weeks
           .map(
             (week) => `
-          <div class="week-card">
-            <h3 style="font-weight:600; margin-bottom:12px">Week ${week.weekNum} (${week.days} days)</h3>
-            <div class="stats-grid">
-              <div><span style="color:#6b7280; font-size:14px">Study</span><div style="font-size:18px; font-weight:600; color:#3b82f6">Avg: ${week.avgStudy} hrs/day</div><div style="font-size:14px; color:#9ca3af">Total: ${week.totalStudy} hrs</div></div>
-              <div><span style="color:#6b7280; font-size:14px">Sleep</span><div style="font-size:18px; font-weight:600; color:#a855f7">Avg: ${week.avgSleep} hrs/day</div><div style="font-size:14px; color:#9ca3af">Total: ${week.totalSleep} hrs</div></div>
-              <div><span style="color:#6b7280; font-size:14px">Wasted</span><div style="font-size:18px; font-weight:600; color:#ef4444">Avg: ${week.avgWasted} hrs/day</div><div style="font-size:14px; color:#9ca3af">Total: ${week.totalWasted} hrs</div></div>
-            </div>
-          </div>`
+<div class="week-card">
+<h3 style="font-weight:600; margin-bottom:12px">Week ${week.weekNum} (${week.days} days)</h3>
+<div class="stats-grid">
+<div><span style="color:#6b7280; font-size:14px">Study</span><div style="font-size:18px; font-weight:600; color:#3b82f6">Avg: ${week.avgStudy} hrs/day</div><div style="font-size:14px; color:#9ca3af">Total: ${week.totalStudy} hrs</div></div>
+<div><span style="color:#6b7280; font-size:14px">Sleep</span><div style="font-size:18px; font-weight:600; color:#a855f7">Avg: ${week.avgSleep} hrs/day</div><div style="font-size:14px; color:#9ca3af">Total: ${week.totalSleep} hrs</div></div>
+<div><span style="color:#6b7280; font-size:14px">Wasted</span><div style="font-size:18px; font-weight:600; color:#ef4444">Avg: ${week.avgWasted} hrs/day</div><div style="font-size:14px; color:#9ca3af">Total: ${week.totalWasted} hrs</div></div>
+</div>
+</div>`
           )
           .join('');
       }
@@ -1415,45 +1360,45 @@
         const weeks = calculateWeeklyReport(reportRange);
         const container = document.getElementById('monthly-content');
         container.innerHTML = `
-          <div class="stats-grid">
-            <div class="stat-card blue"><span style="color:#6b7280; font-size:14px">Total Study</span><div style="font-size:24px; font-weight:bold; color:#3b82f6">${report.totals.study.toFixed(
-              1
-            )} hrs</div><div style="font-size:14px; color:#9ca3af">Avg: ${
+<div class="stats-grid">
+<div class="stat-card blue"><span style="color:#6b7280; font-size:14px">Total Study</span><div style="font-size:24px; font-weight:bold; color:#3b82f6">${report.totals.study.toFixed(
+          1
+        )} hrs</div><div style="font-size:14px; color:#9ca3af">Avg: ${
           report.averages.study
         } hrs/day</div></div>
-            <div class="stat-card purple"><span style="color:#6b7280; font-size:14px">Total Sleep</span><div style="font-size:24px; font-weight:bold; color:#a855f7">${report.totals.sleep.toFixed(
-              1
-            )} hrs</div><div style="font-size:14px; color:#9ca3af">Avg: ${
+<div class="stat-card purple"><span style="color:#6b7280; font-size:14px">Total Sleep</span><div style="font-size:24px; font-weight:bold; color:#a855f7">${report.totals.sleep.toFixed(
+          1
+        )} hrs</div><div style="font-size:14px; color:#9ca3af">Avg: ${
           report.averages.sleep
         } hrs/day</div></div>
-            <div class="stat-card red"><span style="color:#6b7280; font-size:14px">Total Wasted</span><div style="font-size:24px; font-weight:bold; color:#ef4444">${report.totals.wasted.toFixed(
-              1
-            )} hrs</div><div style="font-size:14px; color:#9ca3af">Avg: ${
+<div class="stat-card red"><span style="color:#6b7280; font-size:14px">Total Wasted</span><div style="font-size:24px; font-weight:bold; color:#ef4444">${report.totals.wasted.toFixed(
+          1
+        )} hrs</div><div style="font-size:14px; color:#9ca3af">Avg: ${
           report.averages.wasted
         } hrs/day</div></div>
-          </div>
-          <div style="margin: 24px 0"><p style="color:#6b7280">Days tracked: ${
-            report.daysTracked
-          } / ${report.daysInMonth}</p></div>
-          <div style="border-top:1px solid #e5e7eb; padding-top:16px">
-            <h3 style="font-weight:600; margin-bottom:12px">Weekly Breakdown</h3>
-            <div>
-              ${weeks
-                .map(
-                  (
-                    w
-                  ) => `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background-color:#f9fafb; border-radius:8px; margin-bottom:8px">
-                <span class="weekly-breakdown" style="font-weight:500">Week ${w.weekNum}</span>
-                <div style="display:flex; gap:16px; font-size:14px">
-                  <span style="color:#3b82f6">Study: ${w.avgStudy} hrs/day</span>
-                  <span style="color:#a855f7">Sleep: ${w.avgSleep} hrs/day</span>
-                  <span style="color:#ef4444">Wasted: ${w.avgWasted} hrs/day</span>
-                </div>
-              </div>`
-                )
-                .join('')}
-            </div>
-          </div>`;
+</div>
+<div style="margin: 24px 0"><p style="color:#6b7280">Days tracked: ${
+          report.daysTracked
+        } / ${report.daysInMonth}</p></div>
+<div style="border-top:1px solid #e5e7eb; padding-top:16px">
+<h3 style="font-weight:600; margin-bottom:12px">Weekly Breakdown</h3>
+<div>
+${weeks
+  .map(
+    (
+      w
+    ) => `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background-color:#f9fafb; border-radius:8px; margin-bottom:8px">
+<span class="weekly-breakdown" style="font-weight:500">Week ${w.weekNum}</span>
+<div style="display:flex; gap:16px; font-size:14px">
+<span style="color:#3b82f6">Study: ${w.avgStudy} hrs/day</span>
+<span style="color:#a855f7">Sleep: ${w.avgSleep} hrs/day</span>
+<span style="color:#ef4444">Wasted: ${w.avgWasted} hrs/day</span>
+</div>
+</div>`
+  )
+  .join('')}
+</div>
+</div>`;
       }
       function updateYearlyView() {
         const year = reportRange.getFullYear();
@@ -1485,24 +1430,24 @@
               rowStyle = 'background-color: #e7e8eb;';
             }
             return `<tr style="${rowStyle}">
-            <td style="font-weight:500">${month.name}</td>
-            <td class="text-center"><div style="color:#3b82f6">${formatHours(
+<td style="font-weight:500">${month.name}</td>
+<td class="text-center"><div style="color:#3b82f6">${formatHours(
               month.totals.study
             )}</div><div style="font-size:12px; color:#9ca3af">(${
               month.averages.study
             }/day)</div></td>
-            <td class="text-center"><div style="color:#a855f7">${formatHours(
+<td class="text-center"><div style="color:#a855f7">${formatHours(
               month.totals.sleep
             )}</div><div style="font-size:12px; color:#9ca3af">(${
               month.averages.sleep
             }/day)</div></td>
-            <td class="text-center"><div style="color:#ef4444">${formatHours(
+<td class="text-center"><div style="color:#ef4444">${formatHours(
               month.totals.wasted
             )}</div><div style="font-size:12px; color:#9ca3af">(${
               month.averages.wasted
             }/day)</div></td>
-            <td class="text-center">${month.daysTracked}</td>
-          </tr>`;
+<td class="text-center">${month.daysTracked}</td>
+</tr>`;
           })
           .join('');
         const yearTotals = months.reduce(
@@ -1526,20 +1471,19 @@
         const patternsDiv = document.getElementById('yearly-patterns');
         if (patterns.length > 0) {
           patternsDiv.innerHTML = `<h3 style="font-weight:600; margin-bottom:12px; margin-top:24px; padding-top:16px; border-top:1px solid #e5e7eb">Top Wasted Time Patterns (All Time)</h3>
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap:16px">
-              ${patterns
-                .slice(0, 10)
-                .map(
-                  (item) =>
-                    `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background-color:#fef2f2; border-radius:8px"><span style="font-weight:500">${item.pattern}</span><span style="color:#ef4444; font-weight:bold">${item.count} times</span></div>`
-                )
-                .join('')}
-            </div>`;
+<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap:16px">
+${patterns
+  .slice(0, 10)
+  .map(
+    (item) =>
+      `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background-color:#fef2f2; border-radius:8px"><span style="font-weight:500">${item.pattern}</span><span style="color:#ef4444; font-weight:bold">${item.count} times</span></div>`
+  )
+  .join('')}
+</div>`;
         } else {
           patternsDiv.innerHTML = '';
         }
       }
-
       // ===== Reflection =====
       function initReflection() {
         const el = document.getElementById('reflection-input');
@@ -1556,355 +1500,6 @@
           saveData();
           document.getElementById('reflection-input').value = '';
         }
-      }
-
-      function downloadExampleData() {
-        const exampleData = {
-          dailyData: {
-            '2025-07-01': { study: 3, sleep: 9.5, wasted: 3 },
-            '2025-07-02': { study: 6.5, sleep: 4, wasted: 5.5 },
-            '2025-07-03': { study: 5, sleep: 10.5, wasted: 3 },
-            '2025-07-04': { study: 0, sleep: 3, wasted: 8 },
-            '2025-07-05': { study: 10, sleep: 8, wasted: 2.5 },
-            '2025-07-06': { study: 4, sleep: 10.5, wasted: 6 },
-            '2025-07-07': { study: 6, sleep: 7.5, wasted: 1.5 },
-            '2025-07-08': { study: 1, sleep: 9.5, wasted: 4.5 },
-            '2025-07-09': { study: 4.5, sleep: 6.5, wasted: 2 },
-            '2025-07-10': { study: 0, sleep: 13, wasted: 2 },
-            '2025-07-11': { study: 1, sleep: 11.5, wasted: 1 },
-            '2025-07-12': { study: 11, sleep: 7, wasted: 1.5 },
-            '2025-07-13': { study: 4, sleep: 7.5, wasted: 6.5 },
-            '2025-07-14': { study: 4, sleep: 7, wasted: 2 },
-            '2025-07-15': { study: 7, sleep: 8, wasted: 6 },
-            '2025-07-16': { study: 8, sleep: 8, wasted: 4 },
-            '2025-07-17': { study: 0, sleep: 5, wasted: 4 },
-            '2025-07-18': { study: 5, sleep: 10.5, wasted: 5 },
-            '2025-07-19': { study: 8, sleep: 7, wasted: 4.5 },
-            '2025-07-20': { study: 7, sleep: 7, wasted: 3.5 },
-            '2025-07-21': { study: 5, sleep: 7.5, wasted: 5 },
-            '2025-07-22': { study: 3, sleep: 7.5, wasted: 7 },
-            '2025-07-23': { study: 4.5, sleep: 9, wasted: 2.5 },
-            '2025-07-24': { study: 10, sleep: 7, wasted: 3.5 },
-            '2025-07-25': { study: 3.5, sleep: 12, wasted: 6 },
-            '2025-07-26': { study: 4, sleep: 7, wasted: 10 },
-            '2025-07-27': { study: 4, sleep: 10, wasted: 7 },
-            '2025-07-28': { study: 4, sleep: 6, wasted: 3.5 },
-            '2025-07-29': { study: 10, sleep: 7, wasted: 3.5 },
-            '2025-07-30': { study: 8, sleep: 8.5, wasted: 4 },
-            '2025-07-31': { study: 6.5, sleep: 8, wasted: 7 },
-            '2025-08-01': { study: 4.5, sleep: 8.5, wasted: 6 },
-            '2025-08-02': { study: 4.5, sleep: 11, wasted: 3.5 },
-            '2025-08-03': { study: 0.5, sleep: 13, wasted: 9 },
-            '2025-08-04': { study: 7, sleep: 11, wasted: 4 },
-            '2025-08-05': { study: 7, sleep: 8.5, wasted: 6 },
-            '2025-08-06': { study: 7, sleep: 12.5, wasted: 1.5 },
-            '2025-08-07': { study: 6, sleep: 9, wasted: 3 },
-            '2025-08-08': { study: 1.5, sleep: 11, wasted: 9.5 },
-            '2025-08-09': { study: 5.5, sleep: 10.5, wasted: 6 },
-            '2025-08-10': { study: 8, sleep: 10.5, wasted: 2 },
-            '2025-08-11': { study: 9, sleep: 9.5, wasted: 1.5 },
-            '2025-08-12': { study: 7, sleep: 8, wasted: 6 },
-            '2025-08-13': { study: 1.5, sleep: 11, wasted: 10.5 },
-            '2025-08-14': { study: 4, sleep: 8, wasted: 11 },
-            '2025-08-15': { study: 0.5, sleep: 8, wasted: 14.5 },
-            '2025-08-16': { study: 1.5, sleep: 9, wasted: 12 },
-            '2025-08-17': { study: 6, sleep: 8.5, wasted: 5 },
-            '2025-08-18': { study: 0, sleep: 0, wasted: 0 },
-            '2025-08-19': { study: 7, sleep: 9.5, wasted: 4.5 },
-            '2025-08-20': { study: 6, sleep: 6, wasted: 7.5 },
-            '2025-08-21': { study: 3.5, sleep: 11, wasted: 2.5 },
-            '2025-08-22': { study: 11, sleep: 5, wasted: 2 },
-            '2025-08-23': { study: 6.5, sleep: 9.5, wasted: 3.5 },
-            '2025-08-24': { study: 10, sleep: 7, wasted: 3.5 },
-            '2025-08-25': { study: 3, sleep: 8.5, wasted: 2.5 },
-            '2025-08-26': { study: 6, sleep: 9, wasted: 3.5 },
-            '2025-08-27': { study: 11.5, sleep: 5, wasted: 4 },
-            '2025-08-28': { study: 8.5, sleep: 8.5, wasted: 2.5 },
-            '2025-08-29': { study: 6.5, sleep: 8.5, wasted: 3.5 },
-            '2025-08-30': { study: 1.5, sleep: 9, wasted: 9 },
-            '2025-08-31': { study: 5, sleep: 10.5, wasted: 5 },
-            '2025-09-01': { study: 0, sleep: 0, wasted: 0 },
-            '2025-09-02': { study: 10, sleep: 9, wasted: 3 },
-            '2025-09-03': { study: 4.5, sleep: 7.5, wasted: 9.5 },
-            '2025-09-04': { study: 2.5, sleep: 7.5, wasted: 4 },
-            '2025-09-05': { study: 0, sleep: 9.5, wasted: 3.5 },
-            '2025-09-06': { study: 7.5, sleep: 8, wasted: 3 },
-            '2025-09-07': { study: 5.5, sleep: 7.5, wasted: 5.5 },
-            '2025-09-08': { study: 12, sleep: 6, wasted: 3 },
-            '2025-09-09': { study: 4, sleep: 9, wasted: 9 },
-            '2025-09-10': { study: 7.5, sleep: 6.5, wasted: 8 },
-            '2025-09-11': { study: 3.5, sleep: 9, wasted: 7.5 },
-            '2025-09-12': { study: 8.5, sleep: 10, wasted: 2.5 },
-            '2025-09-13': { study: 5.5, sleep: 8.5, wasted: 4 },
-            '2025-09-14': { study: 1.5, sleep: 8.5, wasted: 4 },
-            '2025-09-15': { study: 2.5, sleep: 7, wasted: 12 },
-            '2025-09-16': { study: 9, sleep: 12, wasted: 1 },
-            '2025-09-17': { study: 0, sleep: 7.5, wasted: 1 },
-            '2025-09-18': { study: 7, sleep: 9, wasted: 6 },
-            '2025-09-19': { study: 11, sleep: 10, wasted: 1 },
-            '2025-09-20': { study: 5.5, sleep: 9, wasted: 4.5 },
-            '2025-09-21': { study: 6, sleep: 11, wasted: 5.5 },
-            '2025-09-22': { study: 6, sleep: 10, wasted: 6.5 },
-            '2025-09-23': { study: 11.5, sleep: 7, wasted: 4 },
-            '2025-09-24': { study: 4.5, sleep: 9.5, wasted: 8.5 },
-            '2025-09-25': { study: 10, sleep: 9, wasted: 3.5 },
-            '2025-09-26': { study: 10, sleep: 9, wasted: 2.5 },
-            '2025-09-27': { study: 3.5, sleep: 7.5, wasted: 9.5 },
-            '2025-09-28': { study: 7, sleep: 9, wasted: 6 },
-            '2025-09-29': { study: 3, sleep: 6, wasted: 9.5 },
-            '2025-09-30': { study: 5.5, sleep: 5, wasted: 11 },
-            '2025-10-01': { study: 9, sleep: 9.5, wasted: 3 },
-            '2025-10-02': { study: 7, sleep: 10, wasted: 3.5 },
-            '2025-10-03': { study: 5.5, sleep: 6, wasted: 3.4 },
-            '2025-10-04': { study: 8.5, sleep: 10, wasted: 3 },
-            '2025-10-05': { study: 7.5, sleep: 6, wasted: 3 },
-            '2025-10-06': { study: 6.5, sleep: 7.5, wasted: 6.5 },
-            '2025-10-07': { study: 4.5, sleep: 9, wasted: 8.5 },
-            '2025-10-08': { study: 18, sleep: 5, wasted: 0 },
-          },
-          hourlyData: {
-            '2025-10-07': [
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'MISC', second: 'MISC' },
-              { first: 'Wasted', second: 'Wasted' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'MISC', second: 'Wasted' },
-              { first: 'Wasted', second: 'Wasted' },
-              { first: 'Wasted', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'MISC', second: 'Wasted' },
-              { first: 'Wasted', second: 'Wasted' },
-              { first: 'Wasted', second: 'Wasted' },
-              { first: 'Wasted', second: 'Wasted' },
-              { first: 'Wasted', second: 'Wasted' },
-              { first: 'Wasted', second: 'Wasted' },
-              { first: 'Studying', second: 'Studying' },
-            ],
-            '2025-10-08': [
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'Sleeping', second: 'Sleeping' },
-              { first: 'MISC', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'MISC' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-              { first: 'Studying', second: 'Studying' },
-            ],
-          },
-          wastedPatterns: {
-            '2025-07-01': ['Post Dinner'],
-            '2025-07-02': ['12AM to 2AM', 'Post Lunch', 'Post Dinner'],
-            '2025-07-03': ['Post Dinner', 'Pre GYM'],
-            '2025-07-04': ['4PM to 12AM'],
-            '2025-07-05': ['Post Lunch'],
-            '2025-07-06': ['Post Lunch', 'Post GYM', 'Post Dinner'],
-            '2025-07-07': ['Post Lunch', 'Post Dinner'],
-            '2025-07-08': ['1AM to 3AM', 'Post Dinner'],
-            '2025-07-09': ['Post Dinner'],
-            '2025-07-10': ['Post Dinner'],
-            '2025-07-11': ['Post Dinner'],
-            '2025-07-12': ['Post Lunch'],
-            '2025-07-13': ['Post Lunch', 'Pre Dinner', 'Post Dinner'],
-            '2025-07-14': ['Post Dinner'],
-            '2025-07-15': ['Post Lunch', 'Pre GYM', 'Post Dinner'],
-            '2025-07-17': ['Post Dinner'],
-            '2025-07-18': ['Post Wakeup', 'Post Lunch', 'Post Dinner'],
-            '2025-07-19': ['Post Wakeup', 'Post GYM', 'Post Dinner'],
-            '2025-07-20': ['Post Dinner'],
-            '2025-07-21': [
-              '1:30AM to 2:30AM',
-              'Post Wakeup',
-              'Post GYM',
-              'Post Dinner',
-            ],
-            '2025-07-22': [
-              '12:30AM to 2AM',
-              'Post Wakeup',
-              'Post GYM',
-              'Post Dinner',
-            ],
-            '2025-07-23': ['Post Dinner'],
-            '2025-07-24': ['12:30AM to 1:30AM', 'Post Lunch', 'Post Dinner'],
-            '2025-07-25': ['Post Lunch', 'Post Dinner'],
-            '2025-07-26': [
-              '12AM to 3AM',
-              'Post GYM',
-              'Post Lunch',
-              'Post Dinner',
-            ],
-            '2025-07-27': ['Post Lunch', 'Pre GYM', 'Post Dinner'],
-            '2025-07-28': ['Post GYM'],
-            '2025-07-29': ['Post Wakeup', 'Pre Dinner', 'Post Dinner'],
-            '2025-07-31': [
-              '12AM to 1:30AM',
-              'Post Wakeup',
-              'Post Lunch',
-              'Post Dinner',
-            ],
-            '2025-08-01': [
-              '1:30AM to 2:30AM',
-              'Post Wakeup',
-              'Post Lunch',
-              'Post Dinner',
-            ],
-            '2025-08-02': ['Post Dinner'],
-            '2025-08-03': [
-              '12AM to 3AM',
-              'Post Lunch',
-              'Pre Dinner',
-              'Post Dinner',
-            ],
-            '2025-08-04': ['Wakeup to Lunch', 'Post Dinner'],
-            '2025-08-05': ['Post Lunch', 'Post 5PM', 'Post Dinner'],
-            '2025-08-06': ['Post Lunch'],
-            '2025-08-07': ['Post Wakeup', 'Post Lunch'],
-            '2025-08-08': [
-              'Post Wakeup',
-              'Post Lunch',
-              'Post GYM',
-              'Post Dinner',
-            ],
-            '2025-08-09': ['Post Wakeup', 'Pre Lunch', 'Post GYM'],
-            '2025-08-10': ['Pre Lunch', 'Pre GYM'],
-            '2025-08-11': ['before night sleeping'],
-            '2025-08-12': ['Post Lunch', 'Post GYM'],
-            '2025-08-13': ['Post Wakeup', 'Post Lunch to 8.30PM straight'],
-            '2025-08-14': ['Post Wakeup', 'Post Lunch', 'Post Dinner'],
-            '2025-08-15': [
-              'Post Wakeup',
-              'Post Lunch',
-              'Post GYM',
-              'Post Dinner',
-            ],
-            '2025-08-16': ['Post Wakeup', 'Post Lunch'],
-            '2025-08-17': ['Post GYM'],
-            '2025-08-19': ['Post Lunch', 'Post GYM'],
-            '2025-08-20': ['Pre Lunch', 'Post Lunch', 'Post Dinner'],
-            '2025-08-21': ['Post Dinner'],
-            '2025-08-22': ['Post Lunch'],
-            '2025-08-23': ['Post Wakeup', 'Pre Dinner', 'Post Dinner'],
-            '2025-08-24': ['Pre Lunch', 'Post Lunch'],
-            '2025-08-25': ['Post GYM', 'Post Dinner'],
-            '2025-08-26': ['Post Dinner'],
-            '2025-08-27': ['Pre Lunch', 'Post Dinner'],
-            '2025-08-28': ['Post GYM', 'Post Dinner'],
-            '2025-08-29': ['Post Lunch', 'Post Dinner'],
-            '2025-08-30': [
-              'Post Wakeup',
-              'Post Lunch',
-              'Post GYM',
-              'Post Dinner',
-            ],
-            '2025-08-31': ['Post Wakeup', 'Post Dinner'],
-            '2025-09-02': ['Post Wakeup', 'Post Dinner'],
-            '2025-09-03': ['Post Wakeup', 'Post Dinner'],
-            '2025-09-04': ['Post Dinner'],
-            '2025-09-05': ['Post Dinner'],
-            '2025-09-06': ['Post Lunch', 'Post Dinner'],
-            '2025-09-07': ['12AM to 2:30AM', 'Post Lunch', 'Post Dinner'],
-            '2025-09-08': ['Post Dinner'],
-            '2025-09-09': ['Pre Lunch', 'Post Lunch'],
-            '2025-09-10': ['Pre Lunch', 'Post Dinner'],
-            '2025-09-11': ['12:30AM to 3AM', 'Post Lunch', 'Post Dinner'],
-            '2025-09-12': ['Post Dinner'],
-            '2025-09-13': ['Post Lunch', 'Post Break', 'Post Dinner'],
-            '2025-09-14': ['Pre Dinner', 'Post Dinner'],
-            '2025-09-15': [
-              'Post Wakeup',
-              'Pre Lunch',
-              'Post Lunch',
-              'Post GYM',
-              'Post Dinner',
-            ],
-            '2025-09-16': ['negligible'],
-            '2025-09-17': ['Post Dinner'],
-            '2025-09-18': ['Post Wakeup', 'Post GYM', 'Post Dinner'],
-            '2025-09-19': ['Post Lunch'],
-            '2025-09-20': ['Post Lunch', 'Post Dinner'],
-            '2025-09-21': ['Post Wakeup', 'Pre Lunch', 'Post Lunch'],
-            '2025-09-22': ['Post Lunch', 'Pre Snacks', 'Post snacks'],
-            '2025-09-23': ['12AM to 1AM', 'Post Wakeup'],
-            '2025-09-24': [
-              'Post Wakeup',
-              'Pre Lunch',
-              'Post Lunch',
-              'Post Dinner',
-            ],
-            '2025-09-25': ['Post Wakeup', 'Pre Lunch', 'Post Lunch'],
-            '2025-09-26': ['Post Wakeup', 'Pre Lunch'],
-            '2025-09-27': ['Post Wakeup', 'Pre Lunch'],
-            '2025-09-28': [
-              'Post Wakeup',
-              'Pre Lunch',
-              'Post Lunch',
-              'Post Dinner',
-            ],
-            '2025-09-29': [
-              'Post Wakeup',
-              'Pre Lunch',
-              'Post Lunch',
-              'Post Dinner',
-            ],
-            '2025-09-30': [
-              'Pre sleep',
-              'Post Wakeup',
-              'Pre Lunch',
-              'Post Lunch',
-              'Post GYM',
-              'Pre Dinner',
-              'Post Dinner',
-            ],
-            '2025-10-01': ['post wakeup', 'Post snacks'],
-            '2025-10-02': ['Pre Lunch', 'Post Lunch'],
-            '2025-10-03': ['Pre lunch', 'Post dinner'],
-            '2025-10-04': ['Post wakeup', 'Post lunch', 'Post Dinner'],
-            '2025-10-05': ['Post dinner'],
-            '2025-10-06': ['Post wakeup', 'Post Dinner'],
-            '2025-10-07': ['Post wakeup', 'Post lunch', 'Post dinner'],
-          },
-          reflections: {
-            '2025-10-08':
-              'Today marks the 100th day of tracking and there is nothing greater than laser focus to get rid of distractions',
-            '2025-10-09': "I don't want to write here again :)",
-          },
-        };
-
-        const jsonString = JSON.stringify(exampleData, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'saiteja-example-data.json';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url); // Clean up
       }
 
       // ===== Update display router =====
@@ -1931,7 +1526,6 @@
             break;
         }
       }
-
       // ===== Init =====
       window.addEventListener('DOMContentLoaded', function () {
         loadData();
