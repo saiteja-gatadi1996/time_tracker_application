@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Annual Time Tracker</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Time Tracker Application</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏰</text></svg>"
+    />
     <style>
       * {
         margin: 0;
@@ -395,22 +398,22 @@
   <body>
     <div class="container">
       <header class="header">
-        <h1 class="title">Annual Time Tracker</h1>
+        <h1 class="title">⏰ Time Tracker Application Application</h1>
         <div class="button-group" id="nav-buttons">
           <button class="button active" onclick="setViewMode('hourly', this)">
             ⏱️ Hourly Tracker
           </button>
           <button class="button" onclick="setViewMode('input', this)">
-            📅 Input Data
+            🗓️ Input Data
           </button>
           <button class="button" onclick="setViewMode('daily', this)">
-            Daily Report
+            📆 Daily Report
           </button>
           <button class="button" onclick="setViewMode('weekly', this)">
-            Weekly Report
+            🧾 Weekly Report
           </button>
           <button class="button" onclick="setViewMode('monthly', this)">
-            Monthly Report
+            📋 Monthly Report
           </button>
           <button class="button" onclick="setViewMode('yearly', this)">
             📊 Yearly Report
@@ -556,18 +559,6 @@
                   onchange="importAllData(event)"
                 />
               </div>
-              <p
-                style="
-                  background: #f2f2f2;
-                  padding: 10px;
-                  border-radius: 6px;
-                  margin-top: 15px;
-                  color: red;
-                "
-              >
-                Note: After importing my example data, make sure to clear your
-                browser's local storage to remove my data.
-              </p>
             </div>
           </div>
         </div>
