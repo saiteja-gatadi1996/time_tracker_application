@@ -344,6 +344,81 @@
         border: 1px solid darkgray;
         background-color: #f7f70a;
       }
+
+      /* Pomodoro Timer Styles */
+      #pomodoro-view {
+        background-color: rgb(
+          186,
+          73,
+          73
+        ); /* Consistent background color for the entire page */
+        min-height: 100vh; /* Ensure full page height without scrollbars */
+        overflow: hidden; /* Prevent scrollbars */
+      }
+      #pomodoro-view .container {
+        background-color: rgb(186, 73, 73);
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #pomodoro-view .timer {
+        font-size: 6em;
+        margin: 20px 0;
+      }
+      #pomodoro-view .controls button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        font-size: 1em;
+        cursor: pointer;
+        background-color: white;
+        border: none;
+        border-radius: 5px;
+      }
+      #pomodoro-view .controls button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+      #pomodoro-view .input-group {
+        margin: 20px 0;
+      }
+      #pomodoro-view .input-group input {
+        padding: 5px;
+        font-size: 1em;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        min-width: 180px;
+      }
+      #pomodoro-view .input-group button {
+        padding: 5px 10px;
+        font-size: 1em;
+        cursor: pointer;
+        background-color: white;
+        border: none;
+        border-radius: 5px;
+      }
+      #pomodoro-view #progress {
+        width: 100%;
+        height: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+      #pomodoro-view #progress-bar {
+        height: 100%;
+        background-color: #4caf50;
+        border-radius: 10px;
+        width: 0%;
+        transition: width 1s linear;
+      }
+      #pomodoro-view #task {
+        margin-top: 10px;
+        font-size: 1.2em;
+      }
+
       @media (max-width: 768px) {
         .container {
           padding: 10px;
@@ -417,6 +492,9 @@
           </button>
           <button class="button" onclick="setViewMode('yearly', this)">
             📊 Yearly Report
+          </button>
+          <button class="button" onclick="setViewMode('pomodoro', this)">
+            ⏳ Focus Timer
           </button>
         </div>
       </header>
@@ -756,6 +834,43 @@
           <div id="yearly-patterns" class="pattern-list"></div>
         </div>
       </div>
+      <!-- Pomodoro Timer View -->
+      <div id="pomodoro-view" class="view hidden">
+        <div class="container">
+          <h1>Pomodoro Timer</h1>
+          <div class="input-group">
+            <input
+              type="number"
+              id="hours"
+              min="0"
+              max="10"
+              placeholder="Enter hours (0-10)"
+            />
+            <input
+              type="number"
+              id="minutes"
+              min="0"
+              max="59"
+              placeholder="Enter minutes (0-59)"
+            />
+            <input
+              type="text"
+              id="taskInput"
+              placeholder="Enter task message"
+            />
+            <button onclick="setTime()">Set</button>
+          </div>
+          <div class="timer" id="timer">00:00:00</div>
+          <div class="controls">
+            <button onclick="pauseTimer()" id="pauseBtn">PAUSE</button>
+            <button onclick="resetTimer()">RESET</button>
+          </div>
+          <div id="progress">
+            <div id="progress-bar"></div>
+          </div>
+          <div id="task">Task: Not set</div>
+        </div>
+      </div>
     </div>
     <script>
       // ===== State management =====
@@ -776,10 +891,164 @@
         'MISC-LUNCH',
         'MISC-DINNER',
       ];
-      // ===== Helpers =====
-      function pad(n) {
-        return String(n).padStart(2, '0');
+
+      // ===== Pomodoro Timer State =====
+      let time = 0;
+      let totalTime = 0;
+      let timerInterval = null;
+      let isPaused = false;
+      const STORAGE_KEY = 'pomodoroTimer';
+
+      // Load saved timer state from localStorage
+      function loadTimerState() {
+        const savedState = localStorage.getItem(STORAGE_KEY);
+        if (savedState) {
+          const {
+            time: savedTime,
+            totalTime: savedTotalTime,
+            taskMessage,
+          } = JSON.parse(savedState);
+          time = savedTime;
+          totalTime = savedTotalTime;
+          if (time > 0) {
+            document.getElementById(
+              'task'
+            ).textContent = `Task: ${taskMessage} (${Math.floor(
+              totalTime / 3600
+            )}h ${Math.floor((totalTime % 3600) / 60)}m)`;
+            startTimer(); // Start timer immediately if time remains
+          }
+          updatePomodoroDisplay();
+        }
       }
+
+      // ===== Navigation / View =====
+      function setViewMode(mode, btn) {
+        viewMode = mode;
+        document
+          .querySelectorAll('.view')
+          .forEach((v) => v.classList.add('hidden'));
+        document.getElementById(`${mode}-view`).classList.remove('hidden');
+        document
+          .querySelectorAll('#nav-buttons .button')
+          .forEach((b) => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        if (mode === 'pomodoro') {
+          loadTimerState(); // Load saved state when switching to Pomodoro
+        }
+      }
+
+      // ===== Pomodoro Timer Functions =====
+      function setTime() {
+        const hours = parseInt(document.getElementById('hours').value) || 0;
+        const minutes = parseInt(document.getElementById('minutes').value) || 0;
+        const taskMessage =
+          document.getElementById('taskInput').value.trim() || 'Not set';
+        if (hours >= 0 && hours <= 10 && minutes >= 0 && minutes <= 59) {
+          totalTime = hours * 3600 + minutes * 60; // Convert hours and minutes to seconds
+          time = totalTime;
+          updatePomodoroDisplay();
+          document.getElementById(
+            'task'
+          ).textContent = `Task: ${taskMessage} (${hours}h ${minutes}m)`;
+          startTimer(); // Start timer automatically after setting
+          saveTimerState(taskMessage); // Save initial state
+        } else {
+          alert('Please enter valid hours (0-10) and minutes (0-59).');
+        }
+      }
+
+      function updatePomodoroDisplay() {
+        const hours = Math.floor(time / 3600);
+        const minutes = Math.floor((time % 3600) / 60);
+        const seconds = time % 60;
+        document.getElementById('timer').textContent = `${pad(hours)}:${pad(
+          minutes
+        )}:${pad(seconds)}`;
+        const progress = ((totalTime - time) / totalTime) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+        document.title = `${pad(hours)}:${pad(minutes)}:${pad(
+          seconds
+        )} - Time Tracker`; // Update tab title
+      }
+
+      function pad(num) {
+        return num.toString().padStart(2, '0');
+      }
+
+      function startTimer() {
+        if (time > 0 && !timerInterval) {
+          timerInterval = setInterval(() => {
+            if (time > 0) {
+              time--;
+              updatePomodoroDisplay();
+              saveTimerState(
+                document
+                  .getElementById('task')
+                  .textContent.replace('Task: ', '')
+                  .split(' (')[0]
+              ); // Save current state
+            } else {
+              clearInterval(timerInterval);
+              timerInterval = null;
+              alert('Time is up!');
+              saveTimerState('Not set'); // Reset state on completion
+            }
+          }, 1000);
+        }
+      }
+
+      function pauseTimer() {
+        if (timerInterval) {
+          isPaused = true; // Set isPaused to true when pausing
+          clearInterval(timerInterval);
+          timerInterval = null;
+          document.getElementById('pauseBtn').textContent = 'RESUME';
+          saveTimerState(
+            document
+              .getElementById('task')
+              .textContent.replace('Task: ', '')
+              .split(' (')[0]
+          ); // Save paused state
+        } else if (isPaused) {
+          isPaused = false; // Reset isPaused when resuming
+          startTimer(); // Resume the timer
+          document.getElementById('pauseBtn').textContent = 'PAUSE';
+          saveTimerState(
+            document
+              .getElementById('task')
+              .textContent.replace('Task: ', '')
+              .split(' (')[0]
+          ); // Save resumed state
+        }
+      }
+
+      function resetTimer() {
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+        time = 0; // Reset time to 0
+        totalTime = 0; // Reset totalTime to 0
+        isPaused = false;
+        updatePomodoroDisplay(); // Update display to 00:00:00
+        document.getElementById('pauseBtn').textContent = 'PAUSE';
+        document.getElementById('hours').value = ''; // Reset hours input
+        document.getElementById('minutes').value = ''; // Reset minutes input
+        document.getElementById('taskInput').value = ''; // Reset task input
+        document.getElementById('task').textContent = 'Task: Not set'; // Reset task display
+        localStorage.removeItem(STORAGE_KEY); // Delete timer state from localStorage
+      }
+
+      function saveTimerState(taskMessage) {
+        const timerState = {
+          time,
+          totalTime,
+          taskMessage,
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(timerState));
+      }
+
       function formatDate(d) {
         return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(
           d.getDate()
@@ -816,6 +1085,7 @@
         };
         return colors[act] || (act?.startsWith('MISC-') ? '#fff5c0' : '');
       }
+
       // ===== Storage =====
       function loadData() {
         const savedData = localStorage.getItem('timeTrackerData');
@@ -876,13 +1146,20 @@
         viewMode = mode;
         document
           .querySelectorAll('.view')
-          .forEach((v) => v.classList.add('hidden'));
-        document.getElementById(`${mode}-view`).classList.remove('hidden');
+          .forEach((v) => v.classList.add('hidden')); // This removes the 'hidden' class from the selected view, but only if the ID matches
+        document.getElementById(`${mode}-view`).classList.remove('hidden'); // Ensure this line correctly targets 'pomodoro-view'
         document
           .querySelectorAll('#nav-buttons .button')
           .forEach((b) => b.classList.remove('active'));
         if (btn) btn.classList.add('active');
-        updateDisplay();
+        if (mode === 'pomodoro') {
+          document.getElementById('timer').textContent = '00:00:00'; // This assumes 'timer' element exists and is accessible
+          document.getElementById('progress-bar').style.width = '0%'; // This assumes 'progress-bar' element is a child of an element with ID 'progress'
+          document.getElementById('startBtn').disabled = true; // This assumes 'startBtn' element exists
+          document.getElementById('pauseBtn').disabled = true; // This assumes 'pauseBtn' element exists
+          document.getElementById('task').textContent = 'Task: Not set'; // This assumes 'task' element exists
+        }
+        updateDisplay(); // This calls updateDisplay, but 'pomodoro' case is empty
       }
       function shiftSelectedDate(deltaDays) {
         const d = new Date(selectedDate);
@@ -1539,11 +1816,15 @@ ${patterns
           case 'yearly':
             updateYearlyView();
             break;
+          case 'pomodoro':
+            if (time > 0 && !timerInterval) startTimer(); // Resume timer if set but not running
+            break;
         }
       }
       // ===== Init =====
       window.addEventListener('DOMContentLoaded', function () {
         loadData();
+        loadTimerState(); // Load saved timer state on page load
         const reflectionInput = document.getElementById('reflection-input');
         if (reflectionInput) {
           reflectionInput.addEventListener('input', () => {
