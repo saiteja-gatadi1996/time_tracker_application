@@ -498,7 +498,6 @@
           </button>
         </div>
       </header>
-      <!-- HOURLY TRACKER (New First Page) -->
       <div id="hourly-view" class="view">
         <div class="grid-container">
           <div class="card">
@@ -641,7 +640,7 @@
           </div>
         </div>
       </div>
-      <!-- Input View (original) -->
+
       <div id="input-view" class="view hidden">
         <div class="grid-container">
           <div class="card">
@@ -1096,6 +1095,10 @@
         if (savedPatterns) wastedPatterns = JSON.parse(savedPatterns);
         if (savedHourly) hourlyData = JSON.parse(savedHourly);
         if (savedReflections) reflections = JSON.parse(savedReflections);
+        // Automatically calculate wasted patterns on load
+        Object.keys(hourlyData).forEach((dateKey) =>
+          autoCalculateWastedPatterns(dateKey)
+        );
       }
       function saveData() {
         localStorage.setItem('timeTrackerData', JSON.stringify(dailyData));
@@ -1386,10 +1389,67 @@ ${getOptionsHtml(row.second)}
         else warn.classList.add('hidden');
         // Sync into dailyData so all reports reflect hourly selections
         dailyData[dateKey] = { study, sleep, wasted };
+        // Automatically calculate wasted patterns
+        autoCalculateWastedPatterns(dateKey);
         saveData();
         // Also keep input view totals in sync if user switches back
         updateTotalsDisplay();
       }
+
+      function autoCalculateWastedPatterns(dateKey) {
+        const rows =
+          hourlyData[dateKey] || Array(24).fill({ first: null, second: null });
+        let patterns = [];
+        let prevActivity = null;
+
+        // Define sleep range
+        const sleepRange = [22, 4]; // 10 PM to 4 AM as sleep window
+
+        for (let h = 0; h < 24; h++) {
+          const hour = h; // 0-23 format
+          const currentFirst = rows[h].first;
+          const currentSecond = rows[h].second;
+
+          // Check first half
+          if (currentFirst === 'Wasted') {
+            if (prevActivity === 'MISC-GYM') patterns.push('Post Gym');
+            else if (prevActivity === 'MISC-LUNCH') patterns.push('Post Lunch');
+            else if (prevActivity === 'MISC-BREAKFAST')
+              patterns.push('Post Breakfast');
+            else if (prevActivity === 'MISC-DINNER')
+              patterns.push('Post Dinner');
+            else if (prevActivity === 'MISC-BREAK') patterns.push('Post BREAK');
+            else if (prevActivity === 'MISC-WOKE_UP')
+              patterns.push('Post Wakeup');
+            else if (h < sleepRange[0] || (h >= 0 && h < sleepRange[1]))
+              patterns.push('Pre Sleep');
+          }
+
+          // Check second half
+          if (currentSecond === 'Wasted') {
+            if (currentFirst === 'MISC-GYM') patterns.push('Post Gym');
+            else if (currentFirst === 'MISC-LUNCH') patterns.push('Post Lunch');
+            else if (currentFirst === 'MISC-BREAKFAST')
+              patterns.push('Post Breakfast');
+            else if (currentFirst === 'MISC-DINNER')
+              patterns.push('Post Dinner');
+            else if (currentFirst === 'MISC-BREAK') patterns.push('Post BREAK');
+            else if (currentFirst === 'MISC-WOKE_UP')
+              patterns.push('Post Wakeup');
+            else if (h < sleepRange[0] || (h >= 0 && h < sleepRange[1]))
+              patterns.push('Pre Sleep');
+          }
+
+          prevActivity = currentSecond || currentFirst;
+        }
+
+        // Remove duplicates while preserving order
+        patterns = patterns.filter(
+          (item, index) => patterns.indexOf(item) === index
+        );
+        wastedPatterns[dateKey] = patterns;
+      }
+
       function countMiscHours(rows) {
         let misc = 0;
         rows.forEach((r) => {
